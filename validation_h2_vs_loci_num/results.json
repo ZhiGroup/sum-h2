@@ -1,0 +1,1522 @@
+{
+  "h2": {
+    "vit_t1_fixed_384": {
+      "pca": {
+        "sum_h2": 5.038280723,
+        "reml_sum_h2": 9.461786,
+        "mean_h2_evr08": 0.08607101839999999,
+        "n_pcs_evr08": 45,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 5.0125926860000005,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 4.034616833544651
+      }
+    },
+    "vit_t2_fixed_384": {
+      "pca": {
+        "sum_h2": 3.5364412203000004,
+        "reml_sum_h2": 8.064715,
+        "mean_h2_evr08": 0.06383522320599999,
+        "n_pcs_evr08": 50,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 3.5376210665,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 2.2255767567337377
+      }
+    },
+    "cnn_replicate1": {
+      "pca": {
+        "sum_h2": 37.329125219999995,
+        "reml_sum_h2": 39.343507,
+        "mean_h2_evr08": 0.47219552173913043,
+        "n_pcs_evr08": 23,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 37.70943707000001,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 72.41640536816021
+      }
+    },
+    "vit_t1_fixed": {
+      "pca": {
+        "sum_h2": 20.87751825,
+        "reml_sum_h2": 23.132206000000004,
+        "mean_h2_evr08": 0.39567115625,
+        "n_pcs_evr08": 32,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 21.43199463,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 60.20862239153189
+      }
+    },
+    "vit_t1_mae_nomask": {
+      "pca": {
+        "sum_h2": 28.171160349999997,
+        "reml_sum_h2": 30.079073,
+        "mean_h2_evr08": 0.47568011111111097,
+        "n_pcs_evr08": 18,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 28.735001646,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 79.4089076159601
+      }
+    },
+    "cnn_ADNI": {
+      "pca": {
+        "sum_h2": 34.9047037,
+        "reml_sum_h2": 34.905530999999996,
+        "mean_h2_evr08": 0.4924944333333333,
+        "n_pcs_evr08": 18,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 35.371016184,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 77.28328644610104
+      }
+    },
+    "vit_t1_fixed_ADNI": {
+      "pca": {
+        "sum_h2": 9.264475361,
+        "reml_sum_h2": 11.916798999999997,
+        "mean_h2_evr08": 0.344423375,
+        "n_pcs_evr08": 8,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 9.79051053,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 54.19294152328531
+      }
+    },
+    "vit_t1_fixed_random": {
+      "pca": {
+        "sum_h2": 8.0563179047,
+        "reml_sum_h2": 11.125836,
+        "mean_h2_evr08": 0.23642902000000002,
+        "n_pcs_evr08": 5,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 8.117597570000001,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 37.33258281591533
+      }
+    },
+    "vit_t1_fixed_cv_fold1": {
+      "pca": {
+        "sum_h2": 22.86513041,
+        "reml_sum_h2": 24.679008000000003,
+        "mean_h2_evr08": 0.4002592675675676,
+        "n_pcs_evr08": 37,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 22.881426259999998,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 57.41407489851788
+      }
+    },
+    "vit_t1_fixed_cv_fold2": {
+      "pca": {
+        "sum_h2": 18.80515303,
+        "reml_sum_h2": 21.364289000000007,
+        "mean_h2_evr08": 0.4051878275862069,
+        "n_pcs_evr08": 29,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 19.08070027,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 61.036970963172315
+      }
+    },
+    "vit_t1_fixed_cv_fold3": {
+      "pca": {
+        "sum_h2": 19.889874725,
+        "reml_sum_h2": 21.706560000000003,
+        "mean_h2_evr08": 0.3867813478260869,
+        "n_pcs_evr08": 23,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 20.139041870000003,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 58.324713901140925
+      }
+    },
+    "vit_t1_fixed_replicate": {
+      "pca": {
+        "sum_h2": 18.210065200000003,
+        "reml_sum_h2": 20.851923999999997,
+        "mean_h2_evr08": 0.4306049166666666,
+        "n_pcs_evr08": 24,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 18.399182190000005,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 62.01267340306331
+      }
+    },
+    "vit_t1_fixed_replicate2": {
+      "pca": {
+        "sum_h2": 21.34713385,
+        "reml_sum_h2": 23.093078000000002,
+        "mean_h2_evr08": 0.38365875,
+        "n_pcs_evr08": 32,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 21.54878235,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 58.94332629101004
+      }
+    },
+    "contrast_learning_mocov2_T2_5std": {
+      "pca": {
+        "sum_h2": 28.25109588,
+        "reml_sum_h2": 28.889865,
+        "mean_h2_evr08": 0.33501973684210523,
+        "n_pcs_evr08": 19,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 28.250819800000002,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 36.70944643285445
+      }
+    },
+    "contrast_learning_mocov2/partial_fit_5std": {
+      "pca": {
+        "sum_h2": 28.072371920000002,
+        "reml_sum_h2": 28.539262000000004,
+        "mean_h2_evr08": 0.3341626315789474,
+        "n_pcs_evr08": 19,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 28.0667026,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 36.96604406681222
+      }
+    },
+    "T1_IDP_pheno_discovery": {
+      "pca": {
+        "sum_h2": 23.978237006,
+        "reml_sum_h2": 25.166405,
+        "mean_h2_evr08": 0.496815,
+        "n_pcs_evr08": 2,
+        "n_pcs": 179
+      },
+      "qr": {
+        "sum_h2": 28.56447143,
+        "n_dims": 179
+      },
+      "blockwise": {
+        "trG_over_trP": 55.782147203173196
+      }
+    },
+    "z_graph_fsaverage4_t1_gwas_mask0p75": {
+      "pca": {
+        "sum_h2": 13.48660726,
+        "reml_sum_h2": 15.375231999999999,
+        "mean_h2_evr08": 0.00714547,
+        "n_pcs_evr08": 1,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 13.44628673,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": -6.122089721096478
+      }
+    },
+    "z_graph_fsaverage4_t1_gwas": {
+      "pca": {
+        "sum_h2": 4.781426265,
+        "reml_sum_h2": 11.210158999999999,
+        "mean_h2_evr08": 0.0958978,
+        "n_pcs_evr08": 1,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 4.883761256,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 14.20296401565799
+      }
+    },
+    "z_graph_graphunet": {
+      "pca": {
+        "sum_h2": 13.48660726,
+        "reml_sum_h2": 15.375231999999999,
+        "mean_h2_evr08": 0.00714547,
+        "n_pcs_evr08": 1,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 13.44628673,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": -6.122089721096479
+      }
+    },
+    "z_graph_fusion_residual_distill": {
+      "pca": {
+        "sum_h2": 39.26444273,
+        "reml_sum_h2": 41.642785,
+        "mean_h2_evr08": 0.5215703333333335,
+        "n_pcs_evr08": 27,
+        "n_pcs": 128
+      },
+      "qr": {
+        "sum_h2": 39.70187985,
+        "n_dims": 128
+      },
+      "blockwise": {
+        "trG_over_trP": 81.47496570364801
+      }
+    },
+    "IDP_T1": {
+      "pca": {
+        "sum_h2": 23.958110347,
+        "reml_sum_h2": 25.329304,
+        "mean_h2_evr08": 0.49728649999999996,
+        "n_pcs_evr08": 2,
+        "n_pcs": 164
+      },
+      "qr": {
+        "sum_h2": 27.31514727,
+        "n_dims": 164
+      },
+      "blockwise": {
+        "trG_over_trP": 57.16706547510054
+      }
+    },
+    "IDP_T2": {
+      "pca": {
+        "sum_h2": 1.8237560299999998,
+        "reml_sum_h2": 2.3839439999999996,
+        "mean_h2_evr08": 0.0987523,
+        "n_pcs_evr08": 1,
+        "n_pcs": 15
+      },
+      "qr": {
+        "sum_h2": 1.3813728,
+        "n_dims": 15
+      },
+      "blockwise": {
+        "trG_over_trP": 40.64037409677016
+      }
+    }
+  },
+  "loci": {
+    "vit_t1_fixed_384": {
+      "minp": 18,
+      "jagwas": 23
+    },
+    "vit_t2_fixed_384": {
+      "minp": 9,
+      "jagwas": 5
+    },
+    "cnn_replicate1": {
+      "minp": 88,
+      "jagwas": 289
+    },
+    "vit_t1_fixed": {
+      "minp": 63,
+      "jagwas": 119
+    },
+    "vit_t1_mae_nomask": {
+      "minp": 75,
+      "jagwas": 141
+    },
+    "cnn_ADNI": {
+      "minp": 77,
+      "jagwas": 182
+    },
+    "vit_t1_fixed_ADNI": {
+      "minp": 25,
+      "jagwas": 11
+    },
+    "vit_t1_fixed_random": {
+      "minp": 5,
+      "jagwas": 5
+    },
+    "vit_t1_fixed_cv_fold1": {
+      "minp": 47,
+      "jagwas": 119
+    },
+    "vit_t1_fixed_cv_fold2": {
+      "minp": 55,
+      "jagwas": 102
+    },
+    "vit_t1_fixed_cv_fold3": {
+      "minp": 51,
+      "jagwas": 77
+    },
+    "vit_t1_fixed_replicate": {
+      "minp": 48,
+      "jagwas": 87
+    },
+    "vit_t1_fixed_replicate2": {
+      "minp": 57,
+      "jagwas": 109
+    },
+    "contrast_learning_mocov2_T2_5std": {
+      "minp": 31,
+      "jagwas": 147
+    },
+    "contrast_learning_mocov2/partial_fit_5std": {
+      "minp": 36,
+      "jagwas": 130
+    },
+    "T1_IDP_pheno_discovery": {
+      "minp": 107,
+      "jagwas": 152
+    },
+    "z_graph_fsaverage4_t1_gwas_mask0p75": {
+      "minp": 25,
+      "jagwas": 24
+    },
+    "z_graph_fsaverage4_t1_gwas": {
+      "minp": 16,
+      "jagwas": null
+    },
+    "z_graph_graphunet": {
+      "minp": 27,
+      "jagwas": 58
+    },
+    "z_graph_fusion_residual_distill": {
+      "minp": 91,
+      "jagwas": 329
+    },
+    "IDP_T1": {
+      "minp": 61,
+      "jagwas": 157
+    },
+    "IDP_T2": {
+      "minp": 31,
+      "jagwas": 36
+    }
+  },
+  "fit_metrics": {
+    "note": "minp_loci uses FUMA-clumped loci from minP GWAS; jagwas_lmm_only_loci uses JAGWAS lmm_only GWAS.",
+    "minp_loci": {
+      "he_pca_128pcs": {
+        "n": 22,
+        "pearson_r": 0.7979555496492211,
+        "slope": 0.3120992363149479,
+        "intercept": 4.539933234795876
+      },
+      "reml_pca_128pcs": {
+        "n": 22,
+        "pearson_r": 0.7908712640371602,
+        "slope": 0.288207131815921,
+        "intercept": 7.865293705272467
+      },
+      "he_pca_evr08": {
+        "n": 22,
+        "pearson_r": 0.8081701649662069,
+        "slope": 0.005041440467936858,
+        "intercept": 0.07767567283556108
+      },
+      "he_qr_mean": {
+        "n": 22,
+        "pearson_r": 0.7827881847703226,
+        "slope": 0.0022736255252228583,
+        "intercept": 0.04600333231714152
+      },
+      "blockwise_trG_trP": {
+        "n": 22,
+        "pearson_r": 0.7646742661481859,
+        "slope": 0.7486177828569466,
+        "intercept": 9.760235420007492
+      }
+    },
+    "jagwas_lmm_only_loci": {
+      "he_pca_128pcs": {
+        "n": 21,
+        "pearson_r": 0.9252960933894779,
+        "slope": 0.11527968491544334,
+        "intercept": 7.392513033411888
+      },
+      "reml_pca_128pcs": {
+        "n": 21,
+        "pearson_r": 0.9310265594373228,
+        "slope": 0.11023885350399236,
+        "intercept": 9.936023820657613
+      },
+      "he_pca_evr08": {
+        "n": 21,
+        "pearson_r": 0.7220100107650995,
+        "slope": 0.0014412370221032259,
+        "intercept": 0.1692124659789936
+      },
+      "he_qr_mean": {
+        "n": 21,
+        "pearson_r": 0.9314805249146955,
+        "slope": 0.0008557866261737385,
+        "intercept": 0.06548997788191006
+      },
+      "blockwise_trG_trP": {
+        "n": 21,
+        "pearson_r": 0.6695754878541345,
+        "slope": 0.21153421342035789,
+        "intercept": 23.54184778336376
+      }
+    }
+  },
+  "kinship_sensitivity": {
+    "created_from": "/data484_4/txia2/gwas_practice/individual_phenos/reml_blockwise_king_over4p5_by_group.json",
+    "random_subset_fraction": 0.25,
+    "random_subset_seed": 42,
+    "qtag_percent": 25,
+    "rows": [
+      {
+        "raw_label": "vit_t1_fixed_384",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_384",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 4.057284371659721,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over4_discovery",
+          "sum_h2": 2.91985089838012,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over5_discovery",
+          "sum_h2": 2.8629399252378005,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over4p5_discovery_q25_seed42",
+          "sum_h2": 0.2097102168903175,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over4p5_discovery_standardized",
+          "sum_h2": 4.057284371659728,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over4p5_discovery_qr_he",
+          "sum_h2": 4.068773497788946,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.03178729295147614
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_384/over4p5_discovery_qr_he_std",
+          "sum_h2": 4.0687734977889445,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.03178729295147613
+        },
+        "minp_loci_count": 18
+      },
+      {
+        "raw_label": "vit_t2_fixed_384",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t2_fixed_384",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 2.402094461148356,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over4_discovery",
+          "sum_h2": 1.6481138945919054,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over5_discovery",
+          "sum_h2": 2.224844656221456,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over4p5_discovery_q25_seed42",
+          "sum_h2": -0.9010078877076517,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over4p5_discovery_standardized",
+          "sum_h2": 2.4020944611483497,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over4p5_discovery_qr_he",
+          "sum_h2": 2.4088965395117916,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.018819504214935872
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t2_fixed_384/over4p5_discovery_qr_he_std",
+          "sum_h2": 2.4088965395117925,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.01881950421493588
+        },
+        "minp_loci_count": 9
+      },
+      {
+        "raw_label": "cnn_replicate1",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/cnn_replicate1",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 35.39561813803325,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over4_discovery",
+          "sum_h2": 38.26552259542897,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over5_discovery",
+          "sum_h2": 22.505588565096023,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over4p5_discovery_q25_seed42",
+          "sum_h2": 5.960083047893726,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over4p5_discovery_standardized",
+          "sum_h2": 35.39561813803354,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over4p5_discovery_qr_he",
+          "sum_h2": 35.495848904219294,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.27731131956421323
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_replicate1/over4p5_discovery_qr_he_std",
+          "sum_h2": 35.4958489042193,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.2773113195642133
+        },
+        "minp_loci_count": 88
+      },
+      {
+        "raw_label": "vit_t1_fixed",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 18.586460495016723,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over4_discovery",
+          "sum_h2": 20.496868492664014,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over5_discovery",
+          "sum_h2": 13.283401425495647,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over4p5_discovery_q25_seed42",
+          "sum_h2": 2.8515250604247715,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over4p5_discovery_standardized",
+          "sum_h2": 18.586460498206634,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over4p5_discovery_qr_he",
+          "sum_h2": 18.6390921190143,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.14561790717979922
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed/over4p5_discovery_qr_he_std",
+          "sum_h2": 18.639092120083085,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.1456179071881491
+        },
+        "minp_loci_count": 63
+      },
+      {
+        "raw_label": "vit_t1_mae_nomask",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_mae_nomask",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 26.17593013357191,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over4_discovery",
+          "sum_h2": 27.67198934907413,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over5_discovery",
+          "sum_h2": 16.095574363728687,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over4p5_discovery_q25_seed42",
+          "sum_h2": 4.351783253128975,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over4p5_discovery_standardized",
+          "sum_h2": 26.17593015927101,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over4p5_discovery_qr_he",
+          "sum_h2": 26.250053065105234,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.20507853957113464
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_mae_nomask/over4p5_discovery_qr_he_std",
+          "sum_h2": 26.25005306382195,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.205078539561109
+        },
+        "minp_loci_count": 75
+      },
+      {
+        "raw_label": "cnn_ADNI",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/cnn_ADNI",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 32.51284518345967,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over4_discovery",
+          "sum_h2": 35.47617001736042,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over5_discovery",
+          "sum_h2": 20.78008859794748,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over4p5_discovery_q25_seed42",
+          "sum_h2": 6.468383633885731,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over4p5_discovery_standardized",
+          "sum_h2": 32.51284518345167,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over4p5_discovery_qr_he",
+          "sum_h2": 32.604912720481124,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.2547258806287588
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/cnn_ADNI/over4p5_discovery_qr_he_std",
+          "sum_h2": 32.604912720481124,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.2547258806287588
+        },
+        "minp_loci_count": 77
+      },
+      {
+        "raw_label": "vit_t1_fixed_ADNI",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_ADNI",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 8.074714140239788,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over4_discovery",
+          "sum_h2": 9.193824702091298,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over5_discovery",
+          "sum_h2": 5.3386731328480606,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over4p5_discovery_q25_seed42",
+          "sum_h2": -0.23622630984787926,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over4p5_discovery_standardized",
+          "sum_h2": 8.074714129348523,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over4p5_discovery_qr_he",
+          "sum_h2": 8.09757940071821,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.06326233906811102
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_ADNI/over4p5_discovery_qr_he_std",
+          "sum_h2": 8.097579400711409,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.06326233906805788
+        },
+        "minp_loci_count": 25
+      },
+      {
+        "raw_label": "vit_t1_fixed_random",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_random",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 6.493283676041284,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over4_discovery",
+          "sum_h2": 6.374256100931664,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over5_discovery",
+          "sum_h2": 3.149930356825431,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over4p5_discovery_q25_seed42",
+          "sum_h2": 0.7537086184188514,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over4p5_discovery_standardized",
+          "sum_h2": 6.4932836804758445,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over4p5_discovery_qr_he",
+          "sum_h2": 6.511670885636757,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.05087242879403717
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_random/over4p5_discovery_qr_he_std",
+          "sum_h2": 6.511670885691716,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.05087242879446653
+        },
+        "minp_loci_count": 5
+      },
+      {
+        "raw_label": "vit_t1_fixed_cv_fold1",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_cv_fold1",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 20.584181471969774,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over4_discovery",
+          "sum_h2": 21.9182973805386,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over5_discovery",
+          "sum_h2": 13.728084366505362,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over4p5_discovery_q25_seed42",
+          "sum_h2": 2.280874617638544,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over4p5_discovery_standardized",
+          "sum_h2": 20.584181457489375,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over4p5_discovery_qr_he",
+          "sum_h2": 20.64246997531113,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.1612692966821182
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold1/over4p5_discovery_qr_he_std",
+          "sum_h2": 20.64246997713471,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.16126929669636492
+        },
+        "minp_loci_count": 47
+      },
+      {
+        "raw_label": "vit_t1_fixed_cv_fold2",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_cv_fold2",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 16.986939967760755,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over4_discovery",
+          "sum_h2": 18.291967415933186,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over5_discovery",
+          "sum_h2": 12.290984041661707,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over4p5_discovery_q25_seed42",
+          "sum_h2": 1.7447281946793414,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over4p5_discovery_standardized",
+          "sum_h2": 16.98693994635813,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over4p5_discovery_qr_he",
+          "sum_h2": 17.035042675293116,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.13308627090072747
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold2/over4p5_discovery_qr_he_std",
+          "sum_h2": 17.03504267567546,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.13308627090371453
+        },
+        "minp_loci_count": 55
+      },
+      {
+        "raw_label": "vit_t1_fixed_cv_fold3",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_cv_fold3",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 17.984094548201057,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over4_discovery",
+          "sum_h2": 18.952511615609204,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over5_discovery",
+          "sum_h2": 11.159147885865478,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over4p5_discovery_q25_seed42",
+          "sum_h2": 3.076257242946655,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over4p5_discovery_standardized",
+          "sum_h2": 17.98409455798597,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over4p5_discovery_qr_he",
+          "sum_h2": 18.03502054199636,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.14089859798434656
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_cv_fold3/over4p5_discovery_qr_he_std",
+          "sum_h2": 18.0350205410101,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.1408985979766414
+        },
+        "minp_loci_count": 51
+      },
+      {
+        "raw_label": "vit_t1_fixed_replicate",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_replicate",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 16.233209211646198,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over4_discovery",
+          "sum_h2": 19.277333118208425,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over5_discovery",
+          "sum_h2": 12.13446008238081,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over4p5_discovery_q25_seed42",
+          "sum_h2": 2.7034557354053748,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over4p5_discovery_standardized",
+          "sum_h2": 16.233209246894557,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over4p5_discovery_qr_he",
+          "sum_h2": 16.279177174491345,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.12718107167571363
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate/over4p5_discovery_qr_he_std",
+          "sum_h2": 16.27917717491472,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.12718107167902126
+        },
+        "minp_loci_count": 48
+      },
+      {
+        "raw_label": "vit_t1_fixed_replicate2",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/vit_t1_fixed_replicate2",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 19.49918184391334,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over4_discovery",
+          "sum_h2": 21.32672729816455,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over5_discovery",
+          "sum_h2": 13.133898870331954,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over4p5_discovery_q25_seed42",
+          "sum_h2": 1.861884550535715,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over4p5_discovery_standardized",
+          "sum_h2": 19.499181839436705,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over4p5_discovery_qr_he",
+          "sum_h2": 19.554397934967824,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.15276873386693612
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/vit_t1_fixed_replicate2/over4p5_discovery_qr_he_std",
+          "sum_h2": 19.554397934469197,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.1527687338630406
+        },
+        "minp_loci_count": 57
+      },
+      {
+        "raw_label": "contrast_learning_mocov2_T2_5std",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/contrast_learning_mocov2_T2_5std",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 26.166332678963236,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over4_discovery",
+          "sum_h2": 28.569038377064672,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over5_discovery",
+          "sum_h2": 15.67038950361683,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over4p5_discovery_q25_seed42",
+          "sum_h2": 2.8815232510296367,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over4p5_discovery_standardized",
+          "sum_h2": 26.166332678963236,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over4p5_discovery_qr_he",
+          "sum_h2": 26.240428618253716,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.20500334858010716
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_T2_5std/over4p5_discovery_qr_he_std",
+          "sum_h2": 26.240428618253716,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.20500334858010716
+        },
+        "minp_loci_count": 31
+      },
+      {
+        "raw_label": "contrast_learning_mocov2/partial_fit_5std",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/contrast_learning_mocov2/partial_fit_5std",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 25.573888248520852,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over4_discovery",
+          "sum_h2": 27.743809333749738,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over5_discovery",
+          "sum_h2": 16.526175652621085,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over4p5_discovery_q25_seed42",
+          "sum_h2": 2.9999109332551033,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over4p5_discovery_standardized",
+          "sum_h2": 25.573888248520834,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over4p5_discovery_qr_he",
+          "sum_h2": 25.646306546275405,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.2003617698927766
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/contrast_learning_mocov2_partial_fit_5std/over4p5_discovery_qr_he_std",
+          "sum_h2": 25.64630654627541,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.20036176989277665
+        },
+        "minp_loci_count": 36
+      },
+      {
+        "raw_label": "T1_IDP_pheno_discovery",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/IDP",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 21.7,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over4_discovery",
+          "sum_h2": 24.662747100868337,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over5_discovery",
+          "sum_h2": 16.547744033157336,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over4p5_discovery_q25_seed42",
+          "sum_h2": 1.0560132517252514,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over4p5_discovery_standardized",
+          "sum_h2": 24.3874640539119,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over4p5_discovery_qr_he",
+          "sum_h2": 26.09493759205961,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 179,
+          "mean_h2": 0.14578177425731625
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/T1_IDP_pheno_discovery/over4p5_discovery_qr_he_std",
+          "sum_h2": 26.094937592058372,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 179,
+          "mean_h2": 0.14578177425730934
+        },
+        "minp_loci_count": 107
+      },
+      {
+        "raw_label": "z_graph_fsaverage4_t1_gwas_mask0p75",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/_z_graph_as_features_symlinks",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 12.038875861356834,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over4_discovery",
+          "sum_h2": 12.838820784720738,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over5_discovery",
+          "sum_h2": 7.6164470467680845,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over4p5_discovery_q25_seed42",
+          "sum_h2": 1.846132373031978,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over4p5_discovery_standardized",
+          "sum_h2": 12.433612302800562,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over4p5_discovery_qr_he",
+          "sum_h2": 12.45312895031979,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.09729006992437336
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas_mask0p75/over4p5_discovery_qr_he_std",
+          "sum_h2": 12.453128950262986,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.09729006992392958
+        },
+        "minp_loci_count": 25
+      },
+      {
+        "raw_label": "z_graph_fsaverage4_t1_gwas",
+        "original_feature_dir": "/data484_4/txia2/gwas_practice/individual_phenos/_z_graph_fsaverage4_t1_gwas_as_features",
+        "source_row_error": null,
+        "sum_h2_king_standard_over4p5_full": 3.6874285766307686,
+        "kin_over4": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over4_discovery",
+          "sum_h2": 4.269912084689636,
+          "n_samples": 1466,
+          "error": null
+        },
+        "kin_over5": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over5_discovery",
+          "sum_h2": 3.9166084671634347,
+          "n_samples": 8103,
+          "error": null
+        },
+        "kin_over4p5_subset": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over4p5_discovery_q25_seed42",
+          "sum_h2": 0.16618123529494244,
+          "n_samples": 538,
+          "error": null
+        },
+        "kin_over4p5_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over4p5_discovery_standardized",
+          "sum_h2": 3.7066803529450323,
+          "n_samples": 2153,
+          "error": null
+        },
+        "kin_over4p5_qr_he": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over4p5_discovery_qr_he",
+          "sum_h2": 3.888097998969641,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.03037576561695032
+        },
+        "kin_over4p5_qr_he_standardized": {
+          "output_root": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_runs/z_graph_fsaverage4_t1_gwas/over4p5_discovery_qr_he_std",
+          "sum_h2": 3.888097989851324,
+          "n_samples": 2153,
+          "error": null,
+          "n_dims": 128,
+          "mean_h2": 0.03037576554571347
+        },
+        "minp_loci_count": 16
+      }
+    ],
+    "correlation_summary": {
+      "pearson_loci_vs_sumh2": {
+        "over4": 0.785103887078376,
+        "over5": 0.8371190865400411,
+        "over4p5_full": 0.773375228705458,
+        "over4p5_q25": 0.6485920633769257,
+        "over4p5_standardization": 0.7998425135408619,
+        "over4p5_qr_he": 0.8146982671554719,
+        "over4p5_qr_he_std": 0.8146982671499866
+      },
+      "pairwise_sumh2_corr": {
+        "labels": [
+          "over4",
+          "over5",
+          "over4p5_full",
+          "over4p5_q25",
+          "over4p5_standardization",
+          "over4p5_qr_he",
+          "over4p5_qr_he_std"
+        ],
+        "matrix": [
+          [
+            1.0,
+            0.991784260788442,
+            0.997888133862266,
+            0.898815860529332,
+            0.9974372644592764,
+            0.9953110574420098,
+            0.9953110574408945
+          ],
+          [
+            0.991784260788442,
+            1.0,
+            0.9871536312989625,
+            0.8734990495873269,
+            0.9908559459666422,
+            0.9914602092920609,
+            0.9914602092887288
+          ],
+          [
+            0.9978881338622659,
+            0.9871536312989625,
+            1.0,
+            0.9074772088502973,
+            0.997950982686303,
+            0.9948042240447197,
+            0.9948042240457698
+          ],
+          [
+            0.898815860529332,
+            0.8734990495873269,
+            0.9074772088502973,
+            1.0,
+            0.8906539267909753,
+            0.8785990503934893,
+            0.8785990503792783
+          ],
+          [
+            0.9974372644592764,
+            0.9908559459666423,
+            0.9979509826863031,
+            0.8906539267909753,
+            1.0,
+            0.9992631197715902,
+            0.9992631197725104
+          ],
+          [
+            0.9953110574420098,
+            0.9914602092920608,
+            0.9948042240447199,
+            0.8785990503934892,
+            0.9992631197715902,
+            1.0,
+            1.0
+          ],
+          [
+            0.9953110574408945,
+            0.9914602092887287,
+            0.9948042240457697,
+            0.8785990503792783,
+            0.9992631197725104,
+            1.0,
+            0.9999999999999998
+          ]
+        ]
+      },
+      "n_points": 18,
+      "columns_used": [
+        "over4",
+        "over5",
+        "over4p5_full",
+        "over4p5_q25",
+        "over4p5_standardization",
+        "over4p5_qr_he",
+        "over4p5_qr_he_std"
+      ]
+    },
+    "scatter_panels": {
+      "over4": {
+        "n": 18,
+        "pearson_r": 0.785103887078376,
+        "slope": 0.2997960353151661,
+        "intercept": 5.0093146190297935,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4.png"
+      },
+      "over5": {
+        "n": 18,
+        "pearson_r": 0.8371190865400411,
+        "slope": 0.18190476010995174,
+        "intercept": 3.1910175445490445,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over5.png"
+      },
+      "over4p5_q25": {
+        "n": 18,
+        "pearson_r": 0.6485920633769257,
+        "slope": 0.04528831866806142,
+        "intercept": 0.1305417537852343,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_q25.png"
+      },
+      "over4p5_full": {
+        "n": 18,
+        "pearson_r": 0.773375228705458,
+        "slope": 0.2666948980663702,
+        "intercept": 5.110861828824838,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_full.png"
+      },
+      "over4p5_standardization": {
+        "n": 18,
+        "pearson_r": 0.7998425135408619,
+        "slope": 0.2779118850515528,
+        "intercept": 4.764067503275451,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_standardization.png"
+      },
+      "over4p5_qr_he": {
+        "n": 18,
+        "pearson_r": 0.8146982671554719,
+        "slope": 0.28558346709264465,
+        "intercept": 4.558600391791146,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_qr_he.png"
+      },
+      "over4p5_qr_he_mean": {
+        "n": 18,
+        "pearson_r": 0.7367797451505232,
+        "slope": 0.001974563843854658,
+        "intercept": 0.044260012745716774,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_qr_he_mean.png"
+      },
+      "over4p5_qr_he_std": {
+        "n": 18,
+        "pearson_r": 0.8146982671499866,
+        "slope": 0.2855834671109375,
+        "intercept": 4.558600390489135,
+        "out_png": "/data484_4/txia2/gwas_practice/individual_phenos/king_kin_sensitivity_scatter_loci_vs_sumh2_over4p5_qr_he_std.png"
+      }
+    }
+  }
+}
