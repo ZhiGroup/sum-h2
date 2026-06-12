@@ -56,9 +56,20 @@ COLOR_MAP: dict[str, str] = {
     "tr(P^-1G)":                                 "green",
     "SVD(P^-1G)":                                "blue",
     "blockwise_multivariate_GREML (trG/trP)":    "purple",
+    "fastGWA + FUMA (estimated)":                "dimgray",
 }
 
 MARKERS = ["o", "X", "P", "s", "^", "D", "v"]
+
+# Estimated fastGWA + FUMA times: linear scaling in p (each trait is independent GWAS).
+# At p≈128 phenotypes: ~5 h measured; extrapolated linearly.
+FASTGWA_TRAIT_P   = [100,   1_000,    10_000,     100_000]
+FASTGWA_TRAIT_SEC = [18_000, 180_000, 1_800_000, 18_000_000]   # 5h, 50h, 500h, 5000h
+
+# Sample scaling (p=1 000 fixed). fastGWA runtime is dominated by SNP count (m~8M),
+# not sample count — approximately constant across the n range tested here.
+FASTGWA_SAMPLE_N   = [719,     2_158,   6_474]
+FASTGWA_SAMPLE_SEC = [180_000, 180_000, 180_000]                # ~50h flat
 
 
 # ---------------------------------------------------------------------------
@@ -193,6 +204,20 @@ def plot_trait_scaling(store: dict) -> None:
                 mb_jitter[k] = mb_jitter[k] * (1.0 + 1e-4 * i) + rng.uniform(0, 0.02)
         _plot_segments(ax2, x, mb_jitter, np.asarray(extrap[label]), color, marker, label)
 
+    # fastGWA + FUMA estimated reference line (time only; memory N/A)
+    fgwa_x = np.asarray(FASTGWA_TRAIT_P, dtype=float)
+    fgwa_t = np.asarray(FASTGWA_TRAIT_SEC, dtype=float)
+    fgwa_color = COLOR_MAP["fastGWA + FUMA (estimated)"]
+    ax1.loglog(fgwa_x, fgwa_t, linestyle="--", linewidth=2, color=fgwa_color,
+               marker="*", markersize=9, label="fastGWA + FUMA (estimated)")
+    # Add hour annotations at each point
+    for px, pt in zip(FASTGWA_TRAIT_P, FASTGWA_TRAIT_SEC):
+        h = pt / 3600
+        label_str = f"{h:.0f}h" if h >= 1 else f"{pt:.0f}s"
+        ax1.annotate(label_str, (float(px), float(pt)),
+                     textcoords="offset points", xytext=(5, 4),
+                     fontsize=7, color=fgwa_color)
+
     for ax, title, ylabel in [(ax1, "Time", "Wall time (s), log scale"),
                                (ax2, "Memory", "Peak RSS (MiB, process), log scale")]:
         ax.set_title(title); ax.set_xlabel("Trait count p (synthetic raw features)"); ax.set_ylabel(ylabel)
@@ -223,6 +248,18 @@ def plot_sample_scaling(store: dict) -> None:
         c = COLOR_MAP[label]; m = MARKERS[i % len(MARKERS)]
         ax1.loglog(x, yt, marker=m, linewidth=2, color=c, label=label)
         ax2.loglog(x, ym, marker=m, linewidth=2, color=c, label=label)
+
+    # fastGWA + FUMA estimated reference line (time only; memory N/A)
+    fgwa_x = np.asarray(FASTGWA_SAMPLE_N, dtype=float)
+    fgwa_t = np.asarray(FASTGWA_SAMPLE_SEC, dtype=float)
+    fgwa_color = COLOR_MAP["fastGWA + FUMA (estimated)"]
+    ax1.loglog(fgwa_x, fgwa_t, linestyle="--", linewidth=2, color=fgwa_color,
+               marker="*", markersize=9, label="fastGWA + FUMA (estimated)")
+    for nx, nt in zip(FASTGWA_SAMPLE_N, FASTGWA_SAMPLE_SEC):
+        h = nt / 3600
+        ax1.annotate(f"{h:.0f}h", (float(nx), float(nt)),
+                     textcoords="offset points", xytext=(5, 4),
+                     fontsize=7, color=fgwa_color)
 
     for ax, title, ylabel in [(ax1, "Time", "Wall time (s), log scale"),
                                (ax2, "Memory", "Peak RSS (MiB), log scale")]:

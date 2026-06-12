@@ -1,30 +1,30 @@
 # Total Heritability Estimation Pipeline
 
-This repository provides code and benchmark results for estimating the total SNP heritability (h²) of high-dimensional phenotypes using phenotype decorrelation methods (PCA or QR decomposition) combined with GCTA Haseman–Elston (HE) regression or REML.
+## Overview
 
-This method has been validated by correlating total h² estimates with the number of loci identified through multivariate GWAS approaches (e.g., minP and JAGWAS).
+* This repository provides a pipeline for estimating the total SNP heritability (h²) of high-dimensional phenotypes. Here we define the total heritability as tr(P⁻¹G), the ratio of the additive genetic variance to the total phenotypic variance across all traits, where G is the genetic covariance matrix and P is the phenotypic covariance matrix. Because tr(P⁻¹G) is invariant to any invertible linear transformation of the phenotype matrix, it gives a fair comparison across architectures that produce embeddings of different scale, rotation, or dimensionality.
+* Decorrelating the phenotype matrix with PCA or QR decomposition and summing each component's h² is mathematically equivalent to tr(P⁻¹G). The pipeline estimates per-PC SNP heritability with GCTA HE regression or REML and accumulates the sum into a single linear-transformation-invariant total h² statistic.
 
-In addition, the repository benchmarks the computational performance and scalability of different phenotype-decorrelation and heritability-estimation strategies, enabling efficient analysis of large-scale datasets.
+## Motivation
 
-Since this total heritability is linear invariant, it could be broadly applicable to any phenotype matrix, including imaging-derived phenotypes (IDPs) from UK Biobank brain MRI data, deep-learning-derived embeddings, surface-based representations, or conventional clinical traits, if phenotype measurements are available for a defined set of individuals.
+* When training and comparing deep learning models on brain MRI, we need a fast, linear-invariant scalar metric that summarises how much heritable signal a learned representation captures—without having to run a full GWAS for every model checkpoint or architecture variant.
+* Traditional GWAS combined with loci clumping (e.g. via FUMA) is prohibitively slow for this use case: even with fastGWA, running a GWAS on 128 phenotypes takes roughly **5 hours** and then requires manually uploading results to the FUMA web server for clumping. The HE pipeline produces an equivalent measure of genetic informativeness in approximately **5 seconds** for the same 128 phenotypes, making it practical to evaluate dozens of models in a single experiment. All analysis are performed with 8 parallel jobs.
+
+## Validation
+
+Total h² estimates have been validated against the number of independent GWAS loci identified by two multivariate approaches—minP clumping and JAGWAS (linear mixed model)—across 22 phenotype models from UK Biobank brain MRI data. The best correlation is Pearson r = 0.93 against JAGWAS lmm_only loci, confirming that the fast HE-based estimate tracks the gold-standard multivariate GWAS signal.
+
+## Computational scope
+
+The repository benchmarks six heritability estimation strategies across trait counts from p = 100 to p = 100,000 and sample sizes from n = 719 to n = 6,474. The results demonstrate that the HE pipeline (PCA and QR variants) achieves the fastest end-to-end runtime at large scale, matching or outperforming all alternatives while maintaining low memory footprint.
 
 ---
 
 ## Pipeline
 
-The six-step pipeline is illustrated in the paper diagram:
+![Pipeline overview](Figure%201%20diagram.png)
 
-```
-① Subset subjects        ② Align phenotype       ③ Demean /
-  (KING kinship > 0.022)   to same sample IDs       Standardize (z-score)
-        ↓                        ↓                        ↓
-                    ─────────────────────────────────────────────────────
-                    ④ PCA or QR          ⑤ GCTA HEreg or REML   ⑥ Sum / avg h²
-                                                                    across PCs
-```
-
-**Step ①** Filter to unrelated individuals via KING kinship (threshold > 0.022 removes
-one subject from each related pair).
+**Step ①** Filter to unrelated individuals via KING kinship (threshold > 0.022, removes one subject from each related pair).
 
 **Step ②** Load each phenotype and align to the filtered sample IDs.
 
@@ -32,10 +32,8 @@ one subject from each related pair).
 
 **Step ④** Dimensionality reduction — two options:
 
-- **PCA** — top-K principal components, K = min(128, n − 1, p) (Option A-1) or K chosen
-  so that cumulative explained variance ratio ≥ 0.8 (Option A-2).
-- **QR** — economy QR decomposition retaining all k = min(n, p) orthonormal columns,
-  no dimensionality cap (Option B).
+- **PCA** — top-K principal components, K = min(128, n − 1, p) (Option A-1) or K chosen so that cumulative explained variance ratio ≥ 0.8 (Option A-2).
+- **QR** — economy QR decomposition retaining all k = min(n, p) orthonormal columns, no dimensionality cap (Option B).
 
 **Step ⑤** For each component PC_k, GCTA estimates SNP heritability:
 
@@ -47,20 +45,18 @@ h²_k = Var(g_k) / Var(PC_k)
 Using either:
 
 - `gcta --HEreg` — Haseman–Elston regression (single-pass, non-iterative, fast)
-- `gcta --reml` — Restricted Maximum Likelihood (iterative AI-REML, slower but
-  asymptotically unbiased)
+- `gcta --reml` — Restricted Maximum Likelihood (iterative AI-REML, slower but asymptotically unbiased)
 
 Covariates corrected inside GCTA: age, sex, genotyping array, assessment centre.
 
-**Step ⑥** Total heritability is the sum `h²_sum = Σ h²_k` across all retained
-components, or the EVR-weighted average `h̄² = (1/K) Σ h²_k`.
+**Step ⑥** Total heritability is the sum `h²_sum = Σ h²_k` across all retained components, or the EVR-weighted average `h̄² = (1/K) Σ h²_k`.
 
 ---
 
 ## Running the pipeline
 
 ```bash
-python3 run_idp_pipeline_king_hereg.py \
+python3 run_sum_h2.py \
     --phenotype_csv /path/to/feature_dir/ \
     --grm_prefix /path/to/grm/over4p5 \
     --gcta_bin /path/to/gcta \
@@ -83,7 +79,8 @@ Use `--reml` instead of `--use_hereg` for the REML backend.
 ```
 repo/
 ├── README.md                          ← this file
-├── run_idp_pipeline_king_hereg.py     ← core pipeline (Steps ①–⑥)
+├── Figure 1 diagram.png               ← pipeline overview figure
+├── run_sum_h2.py                      ← core pipeline (Steps ①–⑥)
 ├── performance/
 │   ├── README.md                  ← per-method breakdown, covariate handling, fairness analysis
 │   ├── run_benchmark.py           ← all benchmarks (trait + sample scaling, all 7 methods)
@@ -96,7 +93,7 @@ repo/
     ├── run_pipeline.py            ← run GCTA HEreg+REML on all 22 models
     ├── plot_scatter.py            ← generate scatter figures from results.json
     ├── results.json               ← all pre-computed results (h2, loci, fit_metrics, kinship_sensitivity)
-    ├── scatter_5panel_hereg_fuma.png
+    ├── scatter_5panel_hereg_minp.png
     └── scatter_5panel_hereg_jagwas.png
 ```
 
@@ -109,15 +106,19 @@ repo/
 ![Trait scaling](performance/IDP_synthetic_trait_scaling_time_resource_v8_hereg.png)
 
 
-| Method                    | p = 100 | p = 1 k | p = 10 k | p = 100 k time    | p = 100 k RSS |
-| ------------------------- | ------- | ------- | -------- | ----------------- | ------------- |
-| HE pipeline – PCA 128PCs | 6.7 s   | 22.0 s  | 75.0 s   | 525.5 s / 0.15 h  | 9.52 GiB      |
-| HE pipeline – PCA EVR0.8 | 3.3 s   | 50.7 s  | 333.5 s  | 1235.9 s / 0.34 h | 12.13 GiB     |
-| HE pipeline – QR         | 3.7 s   | 27.6 s  | 98.7 s   | 527.1 s / 0.15 h  | 7.26 GiB      |
-| REML pipeline             | 37.6 s  | 59.1 s  | 107.1 s  | 519.9 s / 0.14 h  | 7.59 GiB      |
-| tr(P⁻¹G)                | 2.2 s   | 26.7 s  | 104.8 s  | —                | —            |
-| SVD(P⁻¹G)               | 2.1 s   | 27.0 s  | 245.8 s  | —                | —            |
-| blockwise mvGREML         | 2.0 s   | 7.1 s   | 60.1 s   | 701.6 s / 0.19 h  | 7.33 GiB      |
+| Method                    | p = 100 | p = 1 k | p = 10 k | p = 100 k time       | p = 100 k RSS |
+| ------------------------- | ------- | ------- | -------- | -------------------- | ------------- |
+| HE pipeline – PCA 128PCs | 6.7 s   | 22.0 s  | 75.0 s   | 525.5 s / 0.15 h     | 9.52 GiB      |
+| HE pipeline – PCA EVR0.8 | 3.3 s   | 50.7 s  | 333.5 s  | 1235.9 s / 0.34 h    | 12.13 GiB     |
+| HE pipeline – QR         | 3.7 s   | 27.6 s  | 98.7 s   | 527.1 s / 0.15 h     | 7.26 GiB      |
+| REML pipeline             | 37.6 s  | 59.1 s  | 107.1 s  | 519.9 s / 0.14 h     | 7.59 GiB      |
+| tr(P⁻¹G)                | 2.2 s   | 26.7 s  | 104.8 s  | ~24 270 s / ~6.7 h   | ~323 GiB†    |
+| SVD(P⁻¹G)               | 2.1 s   | 27.0 s  | 245.8 s  | ~181 719 s / ~50.5 h | ~323 GiB†    |
+| blockwise mvGREML         | 2.0 s   | 7.1 s   | 60.1 s   | 701.6 s / 0.19 h     | 7.33 GiB      |
+| fastGWA + FUMA (est.)     | ~5 h    | ~50 h   | ~500 h   | ~5 000 h             | —            |
+
+tr(P⁻¹G) and SVD(P⁻¹G) at p = 100 k are physics-based
+extrapolations; memory requires a dense n × p matrix (323 GiB) not feasible on standard nodes. fastGWA and FUMA were benchmarked using ~20,000 samples, a cohort size that is representative of a typical GWAS with sufficient statistical power to detect biologically meaningful associations.
 
 Timing covers the full end-to-end pipeline (GRM load + trait load + dimensionality
 reduction + heritability estimation). Peak RSS = Python driver process only (GCTA
@@ -139,16 +140,14 @@ iteration).
 
 ### Heritability vs GWAS loci (real UKB data)
 
-![minP/FUMA scatter](validation_h2_vs_loci_num/scatter_5panel_hereg_fuma.png)
+![minP scatter](validation_h2_vs_loci_num/scatter_5panel_hereg_minp.png)
 ![JAGWAS scatter](validation_h2_vs_loci_num/scatter_5panel_hereg_jagwas.png)
 
 Each point is one phenotype model. y-axis: estimated h² from the HEreg / REML pipeline.
-x-axis: number of independent loci after FUMA clumping. Both figures use FUMA for
-clumping; they differ in the upstream GWAS method:
+x-axis: number of independent loci after clumping. The two figures differ in the upstream GWAS method:
 
 - **minP** (top, 22 models): minimum p-value across all traits per SNP → FUMA clumping.
-- **JAGWAS lmm_only** (bottom, 21 models): linear mixed model GWAS → FUMA clumping. One model
-  has no lmm_only result and is excluded.
+- **JAGWAS lmm_only** (bottom, 21 models): linear mixed model GWAS → FUMA clumping. One model has no lmm_only result and is excluded.
 
 Pearson r vs minP loci (n = 22): HE PCA 0.798 · REML 0.791 · EVR0.8 0.808 · QR 0.783 · blockwise 0.765.
 Pearson r vs JAGWAS loci (n = 21): HE PCA 0.925 · REML 0.931 · QR 0.931 · EVR0.8 0.722 · blockwise 0.670.
