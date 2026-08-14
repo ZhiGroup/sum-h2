@@ -1,0 +1,21 @@
+# Sensitive real sample IDs / GRMs — never commit UKB (or other cohort) IDs here.
+# Committed PSEUDO demo under sample_selection/pseudo/ is allowed (fake PSEUDO_* IDs).
+sample_selection/king_cutoff_*.txt
+sample_selection/sample_ids_*.txt
+sample_selection/discovery_ids_*.txt
+sample_selection/*.grm.id
+sample_selection/*.grm.bin
+sample_selection/*.grm.N.bin
+!sample_selection/pseudo/
+
+# Large local benchmark artifacts (may contain real IDs / regenerable data)
+performance/sample_scaling_data/
+performance/e2e_bench_*/
+performance/**/subset_grms/
+
+__pycache__/
+*.pyc
+.env
+*.egg-info/
+.venv/
+.DS_Store

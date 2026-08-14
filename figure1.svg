@@ -1,0 +1,383 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 720" width="100%" height="100%" style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #ffffff;">
+    <defs>
+        <!-- Arrowhead Markers -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+        </marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+        </marker>
+        <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#e11d48" />
+        </marker>
+        
+        <!-- Blue gradient for Heatmap colorbar -->
+        <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="100%" stop-color="#08306b" />
+        </linearGradient>
+
+        <!-- Reusable Stick Figure Component -->
+        <g id="person">
+            <circle cx="6" cy="6" r="3" />
+            <path d="M 6,9 L 6,18 M 2,13 L 10,13 M 6,18 L 3,25 M 6,18 L 9,25" stroke-width="1.5" fill="none" stroke-linecap="round" />
+        </g>
+    </defs>
+
+    <style>
+        .box-border { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5px; rx: 8px; }
+        .step-num-bg { fill: #1e3a8a; }
+        .step-num-txt { fill: #ffffff; font-weight: bold; font-size: 16px; text-anchor: middle; dominant-baseline: central; }
+        .title { font-size: 15px; fill: #0f172a; font-weight: bold; }
+        .sub-text { font-size: 13px; fill: #0f172a; }
+        .table-text { font-size: 13px; fill: #0f172a; }
+        .legend-text { font-size: 14px; fill: #0f172a; }
+        .math-font { font-family: 'Times New Roman', Times, serif; }
+        .math-italic { font-family: 'Times New Roman', Times, serif; font-style: italic; }
+    </style>
+
+    <g transform="translate(20, 20)">
+        
+        <!-- ========================================== -->
+        <!-- STEP 1: Subset of UKB data                 -->
+        <!-- ========================================== -->
+        <g transform="translate(0, 0)">
+            <rect width="220" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">1</text>
+            <text x="50" y="26" class="title">Subset of UKB data</text>
+            <text x="50" y="46" class="title" font-size="14" font-weight="normal">(grm kinship &gt; 0.022)</text>
+
+            <g transform="translate(15, 140)" fill="currentColor" stroke="currentColor">
+                <use href="#person" x="0" y="0" color="#64748b" />
+                <use href="#person" x="25" y="0" color="#64748b" />
+                <use href="#person" x="0" y="35" color="#cbd5e1" />
+                <use href="#person" x="25" y="35" color="#cbd5e1" />
+                <use href="#person" x="0" y="70" color="#64748b" />
+                <use href="#person" x="25" y="70" color="#cbd5e1" />
+                <use href="#person" x="0" y="105" color="#64748b" />
+                <use href="#person" x="25" y="105" color="#64748b" />
+            </g>
+
+            <g transform="translate(90, 150)">
+                <polyline points="8,0 8,-8 24,-8 24,0" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="56,0 56,-12 72,-12 72,0" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="16,-8 16,-16 40,-16 40,0" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="28,-16 28,-24 64,-24 64,-12" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="0,8 -8,8 -8,24 0,24" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="0,56 -12,56 -12,72 0,72" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="-8,16 -16,16 -16,40 0,40" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                <polyline points="-16,28 -24,28 -24,64 -12,64" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+
+                <rect x="0" y="0" width="16" height="16" fill="#08306b" /> <rect x="16" y="0" width="16" height="16" fill="#4292c6" /> <rect x="32" y="0" width="16" height="16" fill="#c6dbef" /> <rect x="48" y="0" width="16" height="16" fill="#f7fbff" /> <rect x="64" y="0" width="16" height="16" fill="#deebf7" />
+                <rect x="0" y="16" width="16" height="16" fill="#4292c6" /> <rect x="16" y="16" width="16" height="16" fill="#08306b" /> <rect x="32" y="16" width="16" height="16" fill="#9ecae1" /> <rect x="48" y="16" width="16" height="16" fill="#deebf7" /> <rect x="64" y="16" width="16" height="16" fill="#c6dbef" />
+                
+                <rect x="0" y="32" width="16" height="16" fill="#c6dbef" /> <rect x="16" y="32" width="16" height="16" fill="#9ecae1" /> 
+                <rect x="32" y="32" width="16" height="16" fill="#08306b" /> <rect x="48" y="32" width="16" height="16" fill="#c6dbef" /> <rect x="64" y="32" width="16" height="16" fill="#deebf7" />
+                
+                <rect x="0" y="48" width="16" height="16" fill="#f7fbff" /> <rect x="16" y="48" width="16" height="16" fill="#deebf7" /> 
+                <rect x="32" y="48" width="16" height="16" fill="#c6dbef" /> <rect x="48" y="48" width="16" height="16" fill="#08306b" /> <rect x="64" y="48" width="16" height="16" fill="#c6dbef" />
+                
+                <rect x="0" y="64" width="16" height="16" fill="#deebf7" /> <rect x="16" y="64" width="16" height="16" fill="#c6dbef" /> 
+                <rect x="32" y="64" width="16" height="16" fill="#deebf7" /> <rect x="48" y="64" width="16" height="16" fill="#c6dbef" /> <rect x="64" y="64" width="16" height="16" fill="#08306b" />
+
+                <rect x="0" y="0" width="32" height="32" fill="none" stroke="red" stroke-width="1.5" stroke-dasharray="3,2" />
+            </g>
+
+            <text x="130" y="270" class="sub-text" text-anchor="middle">GRM kinship</text>
+
+            <rect x="60" y="295" width="115" height="12" fill="url(#blueGrad)" stroke="#94a3b8" />
+            <text x="60" y="322" font-size="11" text-anchor="middle">0</text>
+            <text x="88" y="322" font-size="11" text-anchor="middle">0.02</text>
+            <text x="117" y="322" font-size="11" text-anchor="middle">0.04</text>
+            <text x="146" y="322" font-size="11" text-anchor="middle">0.06</text>
+            <text x="175" y="322" font-size="11" text-anchor="middle">0.08</text>
+
+            <text x="20" y="380" class="sub-text">Remove one individual from</text>
+            <text x="20" y="400" class="sub-text">each related pair</text>
+            <text x="20" y="420" class="sub-text">(kinship &gt; 0.022)</text>
+
+            <rect x="20" y="450" width="180" height="35" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" />
+            <text x="110" y="473" class="sub-text" text-anchor="middle">Filtered sample set (IDs)</text>
+        </g>
+        
+        <line x1="225" y1="210" x2="243" y2="210" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- ========================================== -->
+        <!-- STEP 2: Phenotype                          -->
+        <!-- ========================================== -->
+        <g transform="translate(250, 0)">
+            <rect width="190" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">2</text>
+            <text x="50" y="26" class="title">Phenotype with the</text>
+            <text x="50" y="46" class="title">same sample ID</text>
+
+            <rect x="15" y="120" width="160" height="230" rx="6" fill="white" stroke="#94a3b8" stroke-width="1" />
+            <line x1="15" y1="155" x2="175" y2="155" stroke="#94a3b8" stroke-width="1" />
+            <line x1="75" y1="120" x2="75" y2="350" stroke="#94a3b8" stroke-width="1" />
+            
+            <text x="45" y="142" class="table-text" text-anchor="middle">ID</text>
+            <text x="125" y="142" class="table-text" text-anchor="middle">Phenotype (<tspan class="math-italic">y</tspan>)</text>
+            
+            <text x="45" y="180" class="table-text" text-anchor="middle">1000011</text>
+            <text x="125" y="180" class="table-text" text-anchor="middle">0.84</text>
+            
+            <text x="45" y="220" class="table-text" text-anchor="middle">1000012</text>
+            <text x="125" y="220" class="table-text" text-anchor="middle">-1.21</text>
+            
+            <text x="45" y="260" class="table-text" text-anchor="middle">1000013</text>
+            <text x="125" y="260" class="table-text" text-anchor="middle">0.10</text>
+            
+            <text x="45" y="300" class="table-text" font-size="18" text-anchor="middle">&#8942;</text>
+            <text x="125" y="300" class="table-text" font-size="18" text-anchor="middle">&#8942;</text>
+            
+            <text x="45" y="335" class="table-text" text-anchor="middle">N</text>
+            
+            <text x="117" y="335" class="math-italic" font-size="14">y</text>
+            <text x="125" y="340" class="math-italic" font-size="10">N</text>
+
+            <text x="20" y="420" class="sub-text">Continuous phenotype</text>
+            <text x="20" y="445" class="sub-text">aligned to filtered</text>
+            <text x="20" y="470" class="sub-text">sample IDs</text>
+        </g>
+        
+        <line x1="445" y1="210" x2="463" y2="210" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- ========================================== -->
+        <!-- STEP 3: Standardization                    -->
+        <!-- ========================================== -->
+        <g transform="translate(470, 0)">
+            <rect width="190" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">3</text>
+            <text x="65" y="32" class="title">Demean /</text>
+            <text x="45" y="55" class="title">Standardization</text>
+
+            <text x="35" y="172" class="math-italic" font-size="18">z</text>
+            <text x="43" y="177" class="math-italic" font-size="12">i</text>
+            <text x="55" y="172" class="math-font" font-size="18">=</text>
+
+            <line x1="75" y1="165" x2="165" y2="165" stroke="#000000" stroke-width="1.2" />
+            
+            <text x="85" y="153" class="math-font" font-size="17">(ê</text>
+            <text x="97" y="158" class="math-italic" font-size="12">i</text>
+            <text x="105" y="153" class="math-font" font-size="17"> &#8722; <tspan text-decoration="overline">ê</tspan>)</text>
+            
+            <text x="95" y="188" class="math-font" font-size="17">SD(ê)</text>
+
+            <g transform="translate(20, 270)">
+                <line x1="5" y1="70" x2="155" y2="70" stroke="#000000" stroke-width="1" />
+                <polygon points="155,70 148,67 148,73" fill="#000" />
+                <line x1="80" y1="70" x2="80" y2="5" stroke="#000000" stroke-dasharray="4,2" />
+                <path d="M 10 70 C 40 70 50 -10 80 -10 C 110 -10 120 70 150 70 Z" fill="#e0e7ff" opacity="0.6" stroke="none" />
+                <path d="M 10 70 C 40 70 50 -10 80 -10 C 110 -10 120 70 150 70" fill="none" stroke="#312e81" stroke-width="1.5" />
+                <line x1="80" y1="70" x2="80" y2="76" stroke="#000" />
+                <text x="80" y="93" text-anchor="middle" font-size="15">0</text>
+                <line x1="135" y1="70" x2="135" y2="76" stroke="#000" />
+                <text x="135" y="93" text-anchor="middle" font-size="15">1</text>
+            </g>
+
+            <text x="95" y="420" class="sub-text" text-anchor="middle">Mean = 0, SD = 1</text>
+        </g>
+        
+        <line x1="665" y1="210" x2="683" y2="210" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- ========================================== -->
+        <!-- STEP 4: Decorrelation                      -->
+        <!-- ========================================== -->
+        <g transform="translate(690, 0)">
+            <rect width="220" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">4</text>
+            <text x="110" y="32" class="title" text-anchor="middle">Decorrelation</text>
+
+            <rect x="15" y="110" width="190" height="260" rx="6" fill="#f0f5ff" stroke="#c0d5fc" stroke-width="1" />
+            <text x="110" y="135" class="title" text-anchor="middle">PCA</text>
+
+            <!-- PCA Scatter Plot Graphic -->
+            <g transform="translate(110, 205)">
+                <!-- Axes -->
+                <line x1="-70" y1="0" x2="70" y2="0" stroke="#cbd5e1" stroke-width="1.5" />
+                <line x1="0" y1="-50" x2="0" y2="50" stroke="#cbd5e1" stroke-width="1.5" />
+                
+                <!-- Point Cloud (rotated along y = -0.5x) -->
+                <circle cx="-40" cy="20" r="2.5" fill="#94a3b8" />
+                <circle cx="-35" cy="12" r="2.5" fill="#94a3b8" />
+                <circle cx="-25" cy="15" r="2.5" fill="#94a3b8" />
+                <circle cx="-20" cy="5" r="2.5" fill="#94a3b8" />
+                <circle cx="-15" cy="18" r="2.5" fill="#94a3b8" />
+                <circle cx="-10" cy="-2" r="2.5" fill="#94a3b8" />
+                <circle cx="-5" cy="8" r="2.5" fill="#94a3b8" />
+                <circle cx="0" cy="0" r="2.5" fill="#94a3b8" />
+                <circle cx="5" cy="-8" r="2.5" fill="#94a3b8" />
+                <circle cx="10" cy="5" r="2.5" fill="#94a3b8" />
+                <circle cx="15" cy="-12" r="2.5" fill="#94a3b8" />
+                <circle cx="20" cy="-5" r="2.5" fill="#94a3b8" />
+                <circle cx="25" cy="-18" r="2.5" fill="#94a3b8" />
+                <circle cx="35" cy="-15" r="2.5" fill="#94a3b8" />
+                <circle cx="40" cy="-25" r="2.5" fill="#94a3b8" />
+                <circle cx="45" cy="-18" r="2.5" fill="#94a3b8" />
+
+                <!-- Principal Components Vectors -->
+                <!-- PC1 vector -->
+                <line x1="0" y1="0" x2="52" y2="-26" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+                <text x="58" y="-28" fill="#2563eb" font-size="12" font-weight="bold">PC1</text>
+                
+                <!-- PC2 vector (orthogonal) -->
+                <line x1="0" y1="0" x2="-15" y2="-30" stroke="#e11d48" stroke-width="2.5" marker-end="url(#arrow-red)" />
+                <text x="-25" y="-35" fill="#e11d48" font-size="12" font-weight="bold">PC2</text>
+            </g>
+
+            <!-- Display only 128 PCs nicely centered -->
+            <text x="110" y="325" class="sub-text" text-anchor="middle" font-size="14">128 PCs</text>
+
+        </g>
+        
+        <line x1="915" y1="210" x2="933" y2="210" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- ========================================== -->
+        <!-- STEP 5: GCTA HE regression                 -->
+        <!-- ========================================== -->
+        <g transform="translate(940, 0)">
+            <rect width="210" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">5</text>
+            <text x="55" y="26" class="title">GCTA HE regression</text>
+            <text x="120" y="46" class="title" text-anchor="middle">or REML</text>
+            <text x="105" y="70" class="sub-text" text-anchor="middle">with covariate corrected</text>
+
+            <text x="15" y="115" class="sub-text">For each PC</text>
+            <text x="86" y="119" class="math-italic" font-size="10">k</text>
+            <text x="94" y="115" class="sub-text"> (</text>
+            <text x="102" y="115" class="math-italic" font-size="14">k</text>
+            <text x="110" y="115" class="math-font" font-size="14"> = 1, . . . , </text>
+            <text x="165" y="115" class="math-italic" font-size="14">K</text>
+            <text x="175" y="115" class="sub-text">):</text>
+
+            <rect x="25" y="145" width="160" height="40" rx="4" fill="white" stroke="#3b82f6" stroke-width="1.5" />
+            <text x="55" y="171" font-size="18" fill="#2563eb" class="math-italic">PC</text>
+            <text x="77" y="176" font-size="12" fill="#2563eb" class="math-italic">k</text>
+            <text x="87" y="171" font-size="18" fill="#2563eb" class="math-font"> = </text>
+            <text x="107" y="171" font-size="18" fill="#2563eb" class="math-italic">g</text>
+            <text x="115" y="176" font-size="12" fill="#2563eb" class="math-italic">k</text>
+            <text x="123" y="171" font-size="18" fill="#2563eb" class="math-font"> + </text>
+            <text x="140" y="171" font-size="18" fill="#2563eb" class="math-italic">e</text>
+            <text x="147" y="176" font-size="12" fill="#2563eb" class="math-italic">k</text>
+
+            <text x="105" y="225" class="sub-text" text-anchor="middle">SNP-based heritability</text>
+
+            <text x="45" y="278" class="math-italic" font-size="18">h</text>
+            <text x="54" y="270" class="math-font" font-size="12">2</text>
+            <text x="54" y="284" class="math-italic" font-size="12">k</text>
+            <text x="65" y="278" class="math-font" font-size="18"> = </text>
+
+            <line x1="90" y1="272" x2="175" y2="272" stroke="#000" stroke-width="1.2" />
+            
+            <text x="105" y="260" class="math-font" font-size="17">Var(</text>
+            <text x="135" y="260" class="math-italic" font-size="17">g</text>
+            <text x="143" y="265" class="math-italic" font-size="12">k</text>
+            <text x="149" y="260" class="math-font" font-size="17">)</text>
+
+            <text x="96" y="293" class="math-font" font-size="17">Var(</text>
+            <text x="130" y="293" class="math-italic" font-size="17">PC</text>
+            <text x="153" y="298" class="math-italic" font-size="12">k</text>
+            <text x="160" y="293" class="math-font" font-size="17">)</text>
+
+            <text x="15" y="340" class="sub-text">Covariates used for correction:</text>
+            <circle cx="20" cy="365" r="2.5" fill="#000" />
+            <text x="30" y="370" class="sub-text">Age</text>
+            <circle cx="20" cy="390" r="2.5" fill="#000" />
+            <text x="30" y="395" class="sub-text">Sex</text>
+            <circle cx="20" cy="415" r="2.5" fill="#000" />
+            <text x="30" y="420" class="sub-text">Genotyping array</text>
+            <circle cx="20" cy="440" r="2.5" fill="#000" />
+            <text x="30" y="445" class="sub-text">Assessment center</text>
+            <circle cx="20" cy="465" r="2.5" fill="#000" />
+            <text x="30" y="470" class="sub-text">... (other covariates)</text>
+        </g>
+        
+        <line x1="1155" y1="210" x2="1173" y2="210" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- ========================================== -->
+        <!-- STEP 6: Sum                                -->
+        <!-- ========================================== -->
+        <g transform="translate(1180, 0)">
+            <rect width="210" height="510" class="box-border" />
+            <circle cx="28" cy="30" r="14" class="step-num-bg" />
+            <text x="28" y="30" class="step-num-txt">6</text>
+            
+            <text x="105" y="26" class="title" text-anchor="middle">Sum of <tspan class="math-italic">h</tspan><tspan dy="-6" font-size="10" class="math-font">2</tspan></text>
+            <text x="105" y="46" class="title" text-anchor="middle">across all PCs</text>
+
+            <text x="15" y="100" class="sub-text">Let </text>
+            <text x="36" y="100" class="math-italic" font-size="14">h</text>
+            <text x="44" y="93" class="math-font" font-size="10">2</text>
+            <text x="44" y="105" class="math-italic" font-size="10">k</text>
+            <text x="51" y="100" class="sub-text"> be the SNP-based</text>
+            
+            <text x="15" y="122" class="sub-text">heritability of PC</text>
+            <text x="114" y="126" class="math-italic" font-size="10">k</text>
+            <text x="120" y="122" class="sub-text">.</text>
+
+            <text x="105" y="220" class="sub-text" text-anchor="middle">Total (sum) SNP heritability</text>
+            
+            <text x="35" y="277" class="math-italic" font-size="18">h</text>
+            <text x="44" y="269" class="math-font" font-size="12">2</text>
+            <text x="44" y="283" class="math-font" font-size="12">sum</text>
+            <text x="68" y="277" class="math-font" font-size="18"> = </text>
+
+            <path d="M 115,251 L 95,251 L 105,265 L 95,279 L 115,279" stroke="#000" stroke-width="1.5" stroke-linejoin="round" fill="none" />
+            <text x="105" y="243" text-anchor="middle" class="math-italic" font-size="12">K</text>
+            <text x="105" y="293" text-anchor="middle" class="math-italic" font-size="12">k=1</text>
+
+            <text x="125" y="277" class="math-italic" font-size="18">h</text>
+            <text x="134" y="269" class="math-font" font-size="12">2</text>
+            <text x="134" y="283" class="math-italic" font-size="12">k</text>
+
+        </g>
+        
+        <!-- ========================================== -->
+        <!-- BOTTOM LEGEND PANEL                        -->
+        <!-- ========================================== -->
+        <g transform="translate(0, 540)">
+            <rect width="1390" height="130" class="box-border" />
+            
+            <g transform="translate(20, 25)">
+                <text y="0" class="legend-text">GRM: Genetic Relationship Matrix</text>
+                <text x="28" y="22" class="legend-text">(constructed from SNPs)</text>
+                <text y="50" class="legend-text">HE: Haseman&#8211;Elston regression</text>
+                <text y="75" class="legend-text">REML: Restricted Maximum Likelihood</text>
+                
+                <text x="0" y="100" class="legend-text math-italic">h</text>
+                <text x="8" y="95" class="legend-text math-font" font-size="10">2</text>
+                <text x="15" y="100" class="legend-text">: SNP heritability</text>
+            </g>
+
+            <g transform="translate(380, 25)">
+                <text y="0" class="legend-text">PC: Principal Component</text>
+                
+                <text x="0" y="30" class="legend-text math-italic">g</text>
+                <text x="8" y="35" class="legend-text math-italic" font-size="10">k</text>
+                <text x="15" y="30" class="legend-text">: Genetic component for PC<tspan dy="4" class="math-italic" font-size="10">k</tspan></text>
+
+                <text x="0" y="60" class="legend-text math-italic">e</text>
+                <text x="7" y="65" class="legend-text math-italic" font-size="10">k</text>
+                <text x="15" y="60" class="legend-text">: Residual component for PC<tspan dy="4" class="math-italic" font-size="10">k</tspan></text>
+            </g>
+
+            <g transform="translate(680, 25)">
+                <text x="0" y="0" class="legend-text math-italic">P</text>
+                <text x="12" y="0" class="legend-text">: Phenotypic covariance matrix across traits (of residuals)</text>
+                
+                <text x="0" y="30" class="legend-text math-italic">G</text>
+                <text x="15" y="30" class="legend-text">: Additive genetic covariance matrix across traits</text>
+                <text x="22" y="52" class="legend-text">(estimated from GRM)</text>
+                
+                <text x="0" y="80" class="legend-text math-italic">tr(&#183;)</text>
+                <text x="25" y="80" class="legend-text">: Matrix trace</text>
+            </g>
+        </g>
+
+    </g>
+</svg>

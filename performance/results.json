@@ -1,0 +1,1802 @@
+{
+  "trait_scaling": {
+    "p_values": [
+      100,
+      1000,
+      10000,
+      100000
+    ],
+    "rows": [
+      {
+        "p": 100,
+        "feature_dir": "/data484_4/txia2/AGENT/experiments/IDP/synthetic_phenotypes/traits_100",
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 6.285099,
+          "cpu_user_sec": 2.058225,
+          "cpu_sys_sec": 1.405759,
+          "max_rss_mb": 307.219,
+          "n_pca_requested": 128,
+          "n_he_regressions": 100,
+          "mean_h2_sum": 0.9615117368571039,
+          "n_h2": 100,
+          "pc_evr_head": [
+            0.014605837454385638,
+            0.014322023955080919,
+            0.013932216816332743,
+            0.01386923312566389,
+            0.013761317712821084
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.93
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 1.414
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 1.513
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 1.526
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 6.285
+            }
+          ]
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 1.931731,
+          "cpu_user_sec": 14.587742,
+          "cpu_sys_sec": 6.020886,
+          "max_rss_mb": 337.984,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.915
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 1.382
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 1.486
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 1.539
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 1.932
+            }
+          ],
+          "trace_PinvG": -159.04822657766513,
+          "trace_over_p": -1.5904822657766513
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 1.914331,
+          "cpu_user_sec": 13.462717,
+          "cpu_sys_sec": 6.366364,
+          "max_rss_mb": 340.879,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.922
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 1.382
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 1.488
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 1.543
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 1.914
+            }
+          ],
+          "sv_top1": 290.74740244107744,
+          "sv_top10_sum": 2542.802052352162
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 1.545108,
+          "cpu_user_sec": 2.156586,
+          "cpu_sys_sec": 1.791874,
+          "max_rss_mb": 306.281,
+          "n_samples": 2153,
+          "block_size": 1024,
+          "n_blocks": 1,
+          "residualized_raw_traits": true,
+          "trG": -117.69984329504177,
+          "trP": 100.0465684479554,
+          "trG_over_trP": -1.1764505781751993,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.918
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 1.385
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 1.491
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 1.54
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 1.545
+            }
+          ]
+        },
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 37.585043,
+          "cpu_user_sec": 3.030912,
+          "cpu_sys_sec": 3.182762,
+          "max_rss_mb": 280.52,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 100,
+          "mean_h2_reml": 0.04742973680387765,
+          "pc_evr_head": [
+            0.014605837454385638,
+            0.014322023955080919,
+            0.013932216816332743,
+            0.01386923312566389,
+            0.013761317712821084
+          ],
+          "implementation": "shared_load_Y_direct_covariate_alignment_residualize_pca_then_gcta",
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.998
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 1.489
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 1.592
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 1.611
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 2.291
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 37.585
+            }
+          ],
+          "log_tail": "RM from [/data484_4/txia2/AGENT/grm_subset_king/king_over4p5_gcta_discovery.grm.bin].\nGRM for 2158 individuals are included from [/data484_4/txia2/AGENT/grm_subset_king/king_over4p5_gcta_discovery.grm.bin].\nReading phenotypes from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100/features/Feature_99.csv].\nNon-missing phenotypes of 2154 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100/features/Feature_99.csv].\n\n2153 individuals are in common in these files.\n\nPerforming  REML analysis ... (Note: may take hours depending on sample size).\n2153 observations, 1 fixed effect(s), and 2 variance component(s)(including residual variance).\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 0.308565  0.31526\nlogL: -571.711\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(G)\tV(e)\t\n1\t-571.30\t0.22016\t0.39844\t\n2\t-566.16\t0.01511\t0.59692\t\n3\t-561.17\t0.01402\t0.59973\t\n4\t-561.14\t0.01326\t0.60167\t\n5\t-561.13\t0.01161\t0.60590\t\n6\t-561.12\t0.01161\t0.60591\t\n7\t-561.12\t0.01161\t0.60591\t\nLog-likelihood ratio converged.\n\nCalculating the logLikelihood for the reduced model ...\n(variance component 1 is dropped from the model)\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 0.61751\nlogL: -561.13880\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(e)\t\n1\t-561.14\t0.61751\t\nLog-likelihood ratio converged.\n\nSummary result of REML analysis:\nSource\tVariance\tSE\nV(G)\t0.011612\t0.065568\nV(e)\t0.605907\t0.067963\nVp\t0.617520\t0.018826\nV(G)/Vp\t0.018805\t0.106172\n\nSampling variance/covariance of the estimates of variance components:\n4.299106e-03\t-4.281798e-03\t\n-4.281798e-03\t4.618913e-03\t\n\nSummary result of REML analysis has been saved in the file [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100/reml_out/Feature_99.hsq].\n\nAnalysis finished at 17:07:41 UTC on Thu Jun 11 2026\nOverall computational time: 2.68 sec.\n"
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 2.034979,
+          "cpu_user_sec": 11.139052,
+          "cpu_sys_sec": 8.012796,
+          "max_rss_mb": 411.562,
+          "n_samples": 2153,
+          "n_traits": 100,
+          "residualized_raw_traits": true,
+          "sum_h2": 0.23530529645672338,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 1.013
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 1.51
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 1.622
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 1.623
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 1.882
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 1.922
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 2.035
+            }
+          ]
+        }
+      },
+      {
+        "p": 1000,
+        "feature_dir": "/data484_4/txia2/AGENT/experiments/IDP/synthetic_phenotypes/traits_1000",
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 18.71059,
+          "cpu_user_sec": 256.215942,
+          "cpu_sys_sec": 24.063815,
+          "max_rss_mb": 401.582,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": -2.0426279508179004,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.0027858026032522637,
+            0.0027546303120312503,
+            0.002736214503497581,
+            0.0027072273013067968,
+            0.00270189145346385
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.921
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 5.718
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 5.827
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 12.177
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 18.711
+            }
+          ]
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 27.439665,
+          "cpu_user_sec": 747.462701,
+          "cpu_sys_sec": 169.854672,
+          "max_rss_mb": 534.719,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.94
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.727
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.894
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 6.023
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 27.439
+            }
+          ],
+          "trace_PinvG": -3453.1194291575894,
+          "trace_over_p": -3.4531194291575895
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 26.379068,
+          "cpu_user_sec": 718.006668,
+          "cpu_sys_sec": 175.192218,
+          "max_rss_mb": 573.332,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.935
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.692
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.849
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 5.964
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 26.379
+            }
+          ],
+          "sv_top1": 2428.6552693406184,
+          "sv_top10_sum": 19277.486633983313
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 6.004328,
+          "cpu_user_sec": 8.592986,
+          "cpu_sys_sec": 6.468401,
+          "max_rss_mb": 398.977,
+          "n_samples": 2153,
+          "block_size": 1024,
+          "n_blocks": 1,
+          "residualized_raw_traits": true,
+          "trG": -3838.902772307792,
+          "trP": 1000.4656844795533,
+          "trG_over_trP": -3.8371158869929722,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.96
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.685
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.862
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 5.93
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 6.004
+            }
+          ]
+        },
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 55.576913,
+          "cpu_user_sec": 292.812883,
+          "cpu_sys_sec": 22.223003,
+          "max_rss_mb": 393.031,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.032266613289398935,
+          "pc_evr_head": [
+            0.0027858026032522637,
+            0.0027546303120312503,
+            0.002736214503497581,
+            0.0027072273013067968,
+            0.00270189145346385
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.919
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 5.412
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 5.522
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 12.663
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 13.197
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 55.577
+            }
+          ]
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 15.145155,
+          "cpu_user_sec": 343.23297,
+          "cpu_sys_sec": 81.365316,
+          "max_rss_mb": 543.871,
+          "n_samples": 2153,
+          "n_traits": 1000,
+          "residualized_raw_traits": true,
+          "sum_h2": -8.410359815447928,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.922
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.346
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.509
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 5.519
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 14.959
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 15.054
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 15.145
+            }
+          ]
+        }
+      },
+      {
+        "p": 10000,
+        "feature_dir": "/data484_4/txia2/AGENT/experiments/IDP/synthetic_phenotypes/traits_10000",
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 65.54045,
+          "cpu_user_sec": 436.858598,
+          "cpu_sys_sec": 33.299614,
+          "max_rss_mb": 1081.559,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": -0.2661823847809286,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.0009529606454168653,
+            0.0009433813890916059,
+            0.0009386363335891692,
+            0.0009373198726055441,
+            0.0009362421792632244
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.927
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 49.0
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 49.171
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 58.902
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 65.54
+            }
+          ]
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 103.276262,
+          "cpu_user_sec": 1655.420597,
+          "cpu_sys_sec": 387.487402,
+          "max_rss_mb": 6025.84,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.955
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 48.705
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 49.412
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 51.344
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 103.276
+            }
+          ],
+          "trace_PinvG": -7621.445644857699,
+          "trace_over_p": -0.76214456448577
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 274.344777,
+          "cpu_user_sec": 4968.677023,
+          "cpu_sys_sec": 3935.220276,
+          "max_rss_mb": 9453.293,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.95
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 46.531
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 47.158
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 49.134
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 274.345
+            }
+          ],
+          "sv_top1": 3982.8150311958825,
+          "sv_top10_sum": 27834.210754163087
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 50.484282,
+          "cpu_user_sec": 67.085218,
+          "cpu_sys_sec": 33.652045,
+          "max_rss_mb": 1022.652,
+          "n_samples": 2153,
+          "block_size": 1024,
+          "n_blocks": 10,
+          "residualized_raw_traits": true,
+          "trG": -35013.37030215332,
+          "trP": 10004.65684479554,
+          "trG_over_trP": -3.4997072708563124,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.929
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 48.866
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 49.517
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 49.816
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 50.484
+            }
+          ]
+        },
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 100.064811,
+          "cpu_user_sec": 464.578506,
+          "cpu_sys_sec": 31.7226,
+          "max_rss_mb": 1090.477,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.04103695979015569,
+          "pc_evr_head": [
+            0.0009529606454168653,
+            0.0009433813890916059,
+            0.0009386363335891692,
+            0.0009373198726055441,
+            0.0009362421792632244
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.919
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 45.937
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 46.108
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 56.522
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 57.014
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 100.065
+            }
+          ]
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 73.207899,
+          "cpu_user_sec": 797.836342,
+          "cpu_sys_sec": 205.702996,
+          "max_rss_mb": 3232.758,
+          "n_samples": 2153,
+          "n_traits": 10000,
+          "residualized_raw_traits": true,
+          "sum_h2": -19.510290736323487,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.925
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 46.986
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 47.602
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 48.784
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 73.022
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 73.107
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 73.208
+            }
+          ]
+        }
+      },
+      {
+        "p": 100000,
+        "feature_dir": "/data484_4/txia2/AGENT/experiments/IDP/synthetic_phenotypes/traits_100000",
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 525.539497,
+          "cpu_user_sec": 1514.888343,
+          "cpu_sys_sec": 133.456148,
+          "max_rss_mb": 9745.688,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": 0.7087341111100796,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.0005721777256991435,
+            0.0005709889623341769,
+            0.000569486713700537,
+            0.0005689143550229333,
+            0.0005678229863356917
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.936
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 481.35
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 482.168
+            },
+            {
+              "pct": 78.0,
+              "label": "residualize_pca_done",
+              "elapsed_sec": 503.21
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 525.539
+            }
+          ]
+        },
+        "tr_PinvG_e2e": {
+          "skipped": true,
+          "reason": "p=100000 > --skip-dense-above-p=10000 (full dense p\u00d7p at 100k is not practical on typical RAM; use estimates in plot JSON)."
+        },
+        "SVD_PinvG_e2e": {
+          "skipped": true,
+          "reason": "p=100000 > --skip-dense-above-p=10000 (full dense p\u00d7p at 100k is not practical on typical RAM; use estimates in plot JSON)."
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 701.601167,
+          "cpu_user_sec": 638.996872,
+          "cpu_sys_sec": 146.260809,
+          "max_rss_mb": 7504.258,
+          "n_samples": 2153,
+          "block_size": 1024,
+          "n_blocks": 98,
+          "residualized_raw_traits": true,
+          "trG": -352407.40562268527,
+          "trP": 100046.56844795553,
+          "trG_over_trP": -3.5224337135162056,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.934
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 689.889
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 696.191
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 698.553
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 701.601
+            }
+          ]
+        },
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 519.930409,
+          "cpu_user_sec": 1072.207705,
+          "cpu_sys_sec": 104.60422,
+          "max_rss_mb": 7775.93,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.05074120389452666,
+          "pc_evr_head": [
+            0.0005663190117867049,
+            0.0005652424149225796,
+            0.0005635724660357496,
+            0.0005630147185480249,
+            0.0005624031564583808
+          ],
+          "implementation": "shared_load_Y_direct_covariate_alignment_residualize_pca_then_gcta",
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.934
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 457.475
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 457.902
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 476.253
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 477.016
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 519.93
+            }
+          ],
+          "log_tail": "/grm_subset_king/king_over4p5_gcta_discovery.grm.bin].\nGRM for 2158 individuals are included from [/data484_4/txia2/AGENT/grm_subset_king/king_over4p5_gcta_discovery.grm.bin].\nReading phenotypes from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100000/features/Feature_127.csv].\nNon-missing phenotypes of 2154 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100000/features/Feature_127.csv].\n\n2153 individuals are in common in these files.\n\nPerforming  REML analysis ... (Note: may take hours depending on sample size).\n2153 observations, 1 fixed effect(s), and 2 variance component(s)(including residual variance).\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 25.2761 25.7451\nlogL: -5308.55\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(G)\tV(e)\t\n1\t-5308.26\t19.55648\t31.16269\t\n2\t-5304.80\t6.10447\t44.20579\t\n3\t-5301.43\t5.94989\t44.45197\t\n4\t-5301.42\t5.84318\t44.62169\t\n5\t-5301.41\t5.61067\t44.99112\t\n6\t-5301.41\t5.60918\t44.99308\t\n7\t-5301.41\t5.60918\t44.99308\t\nLog-likelihood ratio converged.\n\nCalculating the logLikelihood for the reduced model ...\n(variance component 1 is dropped from the model)\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 50.59669\nlogL: -5301.93891\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(e)\t\n1\t-5301.94\t50.59669\t\nLog-likelihood ratio converged.\n\nSummary result of REML analysis:\nSource\tVariance\tSE\nV(G)\t5.609179\t5.453534\nV(e)\t44.993082\t5.568358\nVp\t50.602261\t1.543585\nV(G)/Vp\t0.110848\t0.107601\n\nSampling variance/covariance of the estimates of variance components:\n2.974104e+01\t-2.918250e+01\t\n-2.918250e+01\t3.100661e+01\t\n\nSummary result of REML analysis has been saved in the file [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/reml_trait_o9q4mxjm/reml_e2e_p100000/reml_out/Feature_127.hsq].\n\nAnalysis finished at 17:19:08 UTC on Thu Jun 11 2026\nOverall computational time: 2.68 sec.\n"
+        },
+        "HE_whitened_kernel_e2e": {
+          "skipped": true,
+          "reason": "p=100000 > skip_dense_above_p=10000"
+        }
+      }
+    ]
+  },
+  "sample_scaling": {
+    "p_fixed": 1000,
+    "rows": [
+      {
+        "label": "n_small_1x3",
+        "n_target": 719,
+        "sample_ids_file": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/sample_ids_n_small_1x3.txt",
+        "grm_prefix": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/subset_grms/king_over5_discovery_n_small_1x3",
+        "feature_dir": "/data484_4/txia2/AGENT/repo/performance/sample_scaling_data/traits_n_small_1x3",
+        "n_observed": 717,
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 14.191011,
+          "cpu_user_sec": 257.729967,
+          "cpu_sys_sec": 17.766799,
+          "max_rss_mb": 254.695,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.12931813446443852,
+          "pc_evr_head": [
+            0.004739520614085404,
+            0.004639780852181375,
+            0.004595889203845587,
+            0.0045680723950358645,
+            0.00447973877525154
+          ],
+          "implementation": "shared_load_Y_direct_covariate_alignment_residualize_pca_then_gcta",
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.117
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 3.277
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 3.372
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 10.465
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 10.743
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 14.191
+            }
+          ],
+          "log_tail": "all_1x3.grm.bin].\nGRM for 719 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/subset_grms/king_over5_discovery_n_small_1x3.grm.bin].\nReading phenotypes from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\nNon-missing phenotypes of 718 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\n\n717 individuals are in common in these files.\n\nPerforming  REML analysis ... (Note: may take hours depending on sample size).\n717 observations, 1 fixed effect(s), and 2 variance component(s)(including residual variance).\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 1.19031 1.19145\nlogL: -670.694\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(G)\tV(e)\t\n1\t-670.69\t1.14790\t1.23366\t\n2\t-670.68\t1.05273\t1.32848\t\n3\t-670.67\t1.04754\t1.33371\t\n4\t-670.67\t1.04734\t1.33391\t\n5\t-670.67\t1.04733\t1.33392\t\nLog-likelihood ratio converged.\n\nCalculating the logLikelihood for the reduced model ...\n(variance component 1 is dropped from the model)\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 2.37988\nlogL: -671.69184\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(e)\t\n1\t-671.69\t2.37988\t\nLog-likelihood ratio converged.\n\nSummary result of REML analysis:\nSource\tVariance\tSE\nV(G)\t1.047334\t0.709255\nV(e)\t1.333917\t0.700369\nVp\t2.381250\t0.126272\nV(G)/Vp\t0.439825\t0.295042\n\nSampling variance/covariance of the estimates of variance components:\n5.030421e-01\t-4.888070e-01\t\n-4.888070e-01\t4.905166e-01\t\n\nSummary result of REML analysis has been saved in the file [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/reml_out/Feature_127.hsq].\n\nAnalysis finished at 17:25:29 UTC on Thu Jun 11 2026\nOverall computational time: 0.15 sec.\n"
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 21.630378,
+          "cpu_user_sec": 693.261687,
+          "cpu_sys_sec": 107.542814,
+          "max_rss_mb": 746.43,
+          "n_samples": 717,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.104
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 3.125
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 3.221
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 3.32
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 21.63
+            }
+          ],
+          "trace_PinvG": -990.6105448598942,
+          "trace_over_p": -0.9906105448598942
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 22.700922,
+          "cpu_user_sec": 736.853864,
+          "cpu_sys_sec": 114.624616,
+          "max_rss_mb": 798.086,
+          "n_samples": 717,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.12
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 3.065
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 3.173
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 3.242
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 22.701
+            }
+          ],
+          "sv_top1": 1405.8634906685609,
+          "sv_top10_sum": 9873.594654193077
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 3.031719,
+          "cpu_user_sec": 4.063102,
+          "cpu_sys_sec": 2.998236,
+          "max_rss_mb": 798.086,
+          "n_samples": 717,
+          "block_size": 1024,
+          "n_blocks": 1,
+          "residualized_raw_traits": true,
+          "trG": -1305.470095598935,
+          "trP": 1001.3976494413407,
+          "trG_over_trP": -1.3036480526264766,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.126
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 2.905
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 3.018
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 3.024
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 3.032
+            }
+          ]
+        },
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 14.325689,
+          "cpu_user_sec": 273.011968,
+          "cpu_sys_sec": 16.572364,
+          "max_rss_mb": 259.332,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": 1.0193755100000006,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.004739520614085404,
+            0.004639780852181375,
+            0.004595889203845587,
+            0.0045680723950358645,
+            0.00447973877525154
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.111
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 3.249
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 3.345
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 10.978
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 14.326
+            }
+          ]
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 10.671881,
+          "cpu_user_sec": 274.66824,
+          "cpu_sys_sec": 70.769653,
+          "max_rss_mb": 930.691,
+          "n_samples": 717,
+          "n_traits": 1000,
+          "residualized_raw_traits": true,
+          "sum_h2": -19.93495381702769,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.102
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 2.828
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 2.971
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 2.995
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 10.64
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 10.65
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 10.672
+            }
+          ]
+        }
+      },
+      {
+        "label": "n_mid_current",
+        "n_target": 2158,
+        "sample_ids_file": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/sample_ids_n_mid_current.txt",
+        "grm_prefix": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/subset_grms/king_over5_discovery_n_mid_current",
+        "feature_dir": "/data484_4/txia2/AGENT/repo/performance/sample_scaling_data/traits_n_mid_current",
+        "n_observed": 2153,
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 58.072027,
+          "cpu_user_sec": 322.983494,
+          "cpu_sys_sec": 20.593558,
+          "max_rss_mb": 406.633,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.0487287341348834,
+          "pc_evr_head": [
+            0.0028158754437433917,
+            0.002746334407029445,
+            0.002737569697475705,
+            0.002712138646188009,
+            0.0026872776149823416
+          ],
+          "implementation": "shared_load_Y_direct_covariate_alignment_residualize_pca_then_gcta",
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.925
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 5.675
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 5.774
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 14.632
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 15.158
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 58.072
+            }
+          ],
+          "log_tail": "4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/subset_grms/king_over5_discovery_n_mid_current.grm.bin].\nReading phenotypes from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\nNon-missing phenotypes of 2154 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\n\n2153 individuals are in common in these files.\n\nPerforming  REML analysis ... (Note: may take hours depending on sample size).\n2153 observations, 1 fixed effect(s), and 2 variance component(s)(including residual variance).\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 0.857372 0.875212\nlogL: -1670.49\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(G)\tV(e)\t\n1\t-1670.11\t0.63400\t1.08604\t\n2\t-1665.62\t0.08063\t1.62129\t\n3\t-1660.69\t0.06453\t1.64166\t\n4\t-1660.65\t0.05315\t1.65598\t\n5\t-1660.63\t0.02783\t1.68774\t\n6\t-1660.61\t0.02647\t1.68915\t\n7\t-1660.61\t0.02640\t1.68922\t\nLog-likelihood ratio converged.\n\nCalculating the logLikelihood for the reduced model ...\n(variance component 1 is dropped from the model)\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 1.71560\nlogL: -1660.62052\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(e)\t\n1\t-1660.62\t1.71560\t\nLog-likelihood ratio converged.\n\nSummary result of REML analysis:\nSource\tVariance\tSE\nV(G)\t0.026405\t0.187133\nV(e)\t1.689219\t0.193690\nVp\t1.715624\t0.052303\nV(G)/Vp\t0.015391\t0.109071\n\nSampling variance/covariance of the estimates of variance components:\n3.501885e-02\t-3.489952e-02\t\n-3.489952e-02\t3.751582e-02\t\n\nSummary result of REML analysis has been saved in the file [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/reml_out/Feature_127.hsq].\n\nAnalysis finished at 17:26:27 UTC on Thu Jun 11 2026\nOverall computational time: 2.61 sec.\n"
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 23.513063,
+          "cpu_user_sec": 646.442045,
+          "cpu_sys_sec": 117.813643,
+          "max_rss_mb": 966.531,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.928
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.978
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 6.115
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 6.414
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 23.513
+            }
+          ],
+          "trace_PinvG": -3016.8059529603192,
+          "trace_over_p": -3.0168059529603193
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 17.756387,
+          "cpu_user_sec": 447.260104,
+          "cpu_sys_sec": 100.056994,
+          "max_rss_mb": 966.531,
+          "n_samples": 2153,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.951
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.535
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.663
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 5.84
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 17.756
+            }
+          ],
+          "sv_top1": 2488.370187871983,
+          "sv_top10_sum": 19356.4843976508
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 5.857809,
+          "cpu_user_sec": 7.8278,
+          "cpu_sys_sec": 6.440468,
+          "max_rss_mb": 966.531,
+          "n_samples": 2153,
+          "block_size": 1024,
+          "n_blocks": 1,
+          "residualized_raw_traits": true,
+          "trG": -2574.008419992465,
+          "trP": 1000.4656844795547,
+          "trG_over_trP": -2.572810302165908,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.937
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.519
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.66
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 5.787
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 5.858
+            }
+          ]
+        },
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 19.120791,
+          "cpu_user_sec": 292.453086,
+          "cpu_sys_sec": 22.913624,
+          "max_rss_mb": 414.715,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": 2.0393251379999997,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.0028158754437433917,
+            0.002746334407029445,
+            0.002737569697475705,
+            0.002712138646188009,
+            0.0026872776149823416
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.946
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 6.037
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 6.151
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 14.511
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 19.121
+            }
+          ]
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 15.173631,
+          "cpu_user_sec": 369.720464,
+          "cpu_sys_sec": 49.738393,
+          "max_rss_mb": 1104.172,
+          "n_samples": 2153,
+          "n_traits": 1000,
+          "residualized_raw_traits": true,
+          "sum_h2": -5.809899156925113,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 0.924
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 5.458
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 5.59
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 5.598
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 15.016
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 15.072
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 15.173
+            }
+          ]
+        }
+      },
+      {
+        "label": "n_large_3x",
+        "n_target": 6474,
+        "sample_ids_file": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/sample_ids_n_large_3x.txt",
+        "grm_prefix": "/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/subset_grms/king_over5_discovery_n_large_3x",
+        "feature_dir": "/data484_4/txia2/AGENT/repo/performance/sample_scaling_data/traits_n_large_3x",
+        "n_observed": 6458,
+        "REML_PCA_capped_e2e": {
+          "wall_sec": 982.81568,
+          "cpu_user_sec": 534.474205,
+          "cpu_sys_sec": 24.884665,
+          "max_rss_mb": 1049.027,
+          "returncode": 0,
+          "ok": true,
+          "n_reml_features": 128,
+          "mean_h2_reml": 0.02170052131910829,
+          "pc_evr_head": [
+            0.0019044107622384445,
+            0.001876845810700665,
+            0.0018721473820352812,
+            0.001851520282207284,
+            0.0018472073515366405
+          ],
+          "implementation": "shared_load_Y_direct_covariate_alignment_residualize_pca_then_gcta",
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.462
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 19.496
+            },
+            {
+              "pct": 45.0,
+              "label": "covariate_alignment_ready",
+              "elapsed_sec": 19.611
+            },
+            {
+              "pct": 75.0,
+              "label": "pca_done",
+              "elapsed_sec": 34.295
+            },
+            {
+              "pct": 82.0,
+              "label": "pc_features_saved",
+              "elapsed_sec": 35.542
+            },
+            {
+              "pct": 100.0,
+              "label": "gcta_reml_done",
+              "elapsed_sec": 982.816
+            }
+          ],
+          "log_tail": "t_grms/king_over5_discovery_n_large_3x.grm.bin].\nReading phenotypes from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\nNon-missing phenotypes of 6459 individuals are included from [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/features/Feature_127.csv].\n\n6458 individuals are in common in these files.\n\nPerforming  REML analysis ... (Note: may take hours depending on sample size).\n6458 observations, 1 fixed effect(s), and 2 variance component(s)(including residual variance).\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 0.667663 0.684859\nlogL: -4201.29\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(G)\tV(e)\t\n1\t-4199.40\t0.47583\t0.86236\t\n2\t-4181.42\t0.34287\t0.98985\t\n3\t-4172.56\t0.25223\t1.07902\t\n4\t-4168.30\t0.19045\t1.14090\t\n5\t-4166.26\t0.14815\t1.18378\t\n6\t-4165.29\t0.11907\t1.21351\t\n7\t-4164.82\t0.05551\t1.27886\t\n8\t-4164.38\t0.05315\t1.28155\t\n9\t-4164.38\t0.05303\t1.28167\t\n10\t-4164.38\t0.05302\t1.28167\t\nLog-likelihood ratio converged.\n\nCalculating the logLikelihood for the reduced model ...\n(variance component 1 is dropped from the model)\nCalculating prior values of variance components by EM-REML ...\nUpdated prior values: 1.33457\nlogL: -4164.66280\nRunning AI-REML algorithm ...\nIter.\tlogL\tV(e)\t\n1\t-4164.66\t1.33457\t\nLog-likelihood ratio converged.\n\nSummary result of REML analysis:\nSource\tVariance\tSE\nV(G)\t0.053024\t0.068875\nV(e)\t1.281674\t0.072006\nVp\t1.334697\t0.023495\nV(G)/Vp\t0.039727\t0.051584\n\nSampling variance/covariance of the estimates of variance components:\n4.743771e-03\t-4.688333e-03\t\n-4.688333e-03\t5.184910e-03\t\n\nSummary result of REML analysis has been saved in the file [/data484_4/txia2/AGENT/experiments/IDP/g_trait_benchmark/sample_size_benchmark/results/tmp_reml/reml_e2e_p1000/reml_out/Feature_127.hsq].\n\nAnalysis finished at 17:42:49 UTC on Thu Jun 11 2026\nOverall computational time: 57.78 sec.\n"
+        },
+        "tr_PinvG_e2e": {
+          "wall_sec": 38.31452,
+          "cpu_user_sec": 693.248172,
+          "cpu_sys_sec": 140.778179,
+          "max_rss_mb": 2865.203,
+          "n_samples": 6458,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.324
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 19.28
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 19.717
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 20.671
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_trace",
+              "elapsed_sec": 38.314
+            }
+          ],
+          "trace_PinvG": -13919.137196502557,
+          "trace_over_p": -13.919137196502557
+        },
+        "SVD_PinvG_e2e": {
+          "wall_sec": 40.107642,
+          "cpu_user_sec": 774.315593,
+          "cpu_sys_sec": 133.322558,
+          "max_rss_mb": 2865.203,
+          "n_samples": 6458,
+          "residualized_raw_traits": true,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.403
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 19.066
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 19.466
+            },
+            {
+              "pct": 70.0,
+              "label": "build_G_P",
+              "elapsed_sec": 20.405
+            },
+            {
+              "pct": 100.0,
+              "label": "solve_svd",
+              "elapsed_sec": 40.108
+            }
+          ],
+          "sv_top1": 5779.248414184051,
+          "sv_top10_sum": 31890.655316159053
+        },
+        "blockwise_mvGREML_trG_trP_e2e": {
+          "wall_sec": 20.564418,
+          "cpu_user_sec": 26.571433,
+          "cpu_sys_sec": 21.338782,
+          "max_rss_mb": 2865.203,
+          "n_samples": 6458,
+          "block_size": 1024,
+          "n_blocks": 1,
+          "residualized_raw_traits": true,
+          "trG": -14446.384021211243,
+          "trP": 1000.1558708378506,
+          "trG_over_trP": -14.444132602160519,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 20.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.439
+            },
+            {
+              "pct": 45.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 19.296
+            },
+            {
+              "pct": 55.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 19.693
+            },
+            {
+              "pct": 62.0,
+              "label": "build_B",
+              "elapsed_sec": 20.259
+            },
+            {
+              "pct": 100.0,
+              "label": "blockwise_traces_done",
+              "elapsed_sec": 20.564
+            }
+          ]
+        },
+        "HE_pipeline_PCA_capped_e2e": {
+          "wall_sec": 44.11059,
+          "cpu_user_sec": 417.523066,
+          "cpu_sys_sec": 20.340432,
+          "max_rss_mb": 1232.688,
+          "n_pca_requested": 128,
+          "n_he_regressions": 128,
+          "mean_h2_sum": 0.6619427469999999,
+          "n_h2": 128,
+          "pc_evr_head": [
+            0.0019044107622384445,
+            0.001876845810700665,
+            0.0018721473820352812,
+            0.001851520282207284,
+            0.0018472073515366405
+          ],
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.487
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv_to_Y",
+              "elapsed_sec": 20.066
+            },
+            {
+              "pct": 50.0,
+              "label": "covariate_merge_ready",
+              "elapsed_sec": 20.196
+            },
+            {
+              "pct": 78.0,
+              "label": "pca_done",
+              "elapsed_sec": 31.135
+            },
+            {
+              "pct": 100.0,
+              "label": "he_on_pcs_done",
+              "elapsed_sec": 44.111
+            }
+          ]
+        },
+        "HE_whitened_kernel_e2e": {
+          "wall_sec": 29.823493,
+          "cpu_user_sec": 395.315556,
+          "cpu_sys_sec": 55.796122,
+          "max_rss_mb": 2191.664,
+          "n_samples": 6458,
+          "n_traits": 1000,
+          "residualized_raw_traits": true,
+          "sum_h2": -0.1176962664909015,
+          "timing_checkpoints_pct": [
+            {
+              "pct": 15.0,
+              "label": "load_grm",
+              "elapsed_sec": 8.351
+            },
+            {
+              "pct": 35.0,
+              "label": "load_feature_csv",
+              "elapsed_sec": 18.738
+            },
+            {
+              "pct": 50.0,
+              "label": "residualize_raw_traits",
+              "elapsed_sec": 19.129
+            },
+            {
+              "pct": 62.0,
+              "label": "build_P_covariance",
+              "elapsed_sec": 19.171
+            },
+            {
+              "pct": 72.0,
+              "label": "whiten_by_Pinv",
+              "elapsed_sec": 28.831
+            },
+            {
+              "pct": 85.0,
+              "label": "build_kernel_K",
+              "elapsed_sec": 29.067
+            },
+            {
+              "pct": 100.0,
+              "label": "he_regression_on_kernel",
+              "elapsed_sec": 29.823
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "dense_trace_extrapolation": {
+    "method": "dense_exact_tr_PinvG_10k_and_100k_estimate",
+    "n_samples": 2158,
+    "actual_10k_rows": [
+      {
+        "step": "generate_standardize_Y_10k",
+        "wall_sec": 0.380617,
+        "cpu_user_sec": 0.334943,
+        "cpu_sys_sec": 0.045637,
+        "max_rss_mb": 467.902,
+        "Y_shape": [
+          2158,
+          10000
+        ]
+      },
+      {
+        "step": "build_dense_G_P_10k",
+        "wall_sec": 1.477652,
+        "cpu_user_sec": 16.78165,
+        "cpu_sys_sec": 18.484494,
+        "max_rss_mb": 2813.562,
+        "G_shape": [
+          10000,
+          10000
+        ],
+        "ridge": 0.0010004636068613815
+      },
+      {
+        "step": "solve_trace_PinvG_10k",
+        "wall_sec": 24.135358,
+        "cpu_user_sec": 788.021266,
+        "cpu_sys_sec": 143.222043,
+        "max_rss_mb": 5113.469,
+        "trace_over_p": -0.43263408513463947
+      },
+      {
+        "step": "total_dense_trace_10k",
+        "wall_sec": 25.993811,
+        "cpu_user_sec": 805.138,
+        "cpu_sys_sec": 161.752272,
+        "max_rss_mb": 5113.469
+      }
+    ],
+    "estimate_100k": {
+      "build_dense_G_P_wall_sec_est": 134.81323811535336,
+      "solve_trace_wall_sec_est": 24135.358,
+      "total_wall_sec_est": 24270.171238115352,
+      "memory": {
+        "K_GB": 0.037255712,
+        "Y_GB": 1.7264,
+        "B_GB": 1.7264,
+        "G_GB": 80.0,
+        "P_GB": 80.0,
+        "approx_with_solve_temporaries_GB": 323.490055712
+      },
+      "note": "100k estimate only. Dense solve scales O(p^3) and full matrices require hundreds of GB including temporaries."
+    },
+    "memory_10k": {
+      "K_GB": 0.037255712,
+      "Y_GB": 0.17264,
+      "B_GB": 0.17264,
+      "G_GB": 0.8,
+      "P_GB": 0.8,
+      "approx_with_solve_temporaries_GB": 3.5825357120000003
+    }
+  }
+}
