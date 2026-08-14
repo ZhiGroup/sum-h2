@@ -26,7 +26,7 @@ The repository benchmarks heritability estimation strategies across trait counts
 
 **Step ①** Select related samples via KING (`Kinship >= 0.022`, no upper bound; keep **both** members of each pair), then restrict to discovery ≈ random **~⅔**. Final *n* = **2,158** for this UKB run. From BGEN/PLINK: KING → `.kin0`, GCTA `--make-grm` → full dense GRM, then subset. Details: [`sample_selection/README.md`](sample_selection/README.md).
 
-**IDs / privacy:** real keep lists live in **`AGENT/repo_local/`**. Public `repo/` ships scripts plus a clearly labeled **PSEUDO** demo GRM under [`sample_selection/pseudo/`](sample_selection/pseudo/) (fake `PSEUDO_*` IDs only — not for scientific results).
+**IDs / privacy:** this repo does not ship real subject IDs. Use [`sample_selection/`](sample_selection/README.md) to build your own keep list + GRM, or the **PSEUDO** demo under [`sample_selection/pseudo/`](sample_selection/pseudo/) for a path check (fake `PSEUDO_*` IDs only).
 
 **Step ②** Load each phenotype and align to the filtered sample IDs.
 
@@ -80,7 +80,7 @@ python3 run_sum_h2.py \
     --output_root results/
 ```
 
-Default GRM / sample list: `repo_local/sample_selection/` or `grm_subset_king/` (public `sample_selection/` is ID-free). Override with `--cohort discovery --kin over4p5` paths as needed.
+Default GRM / sample list come from `sample_selection/` (PSEUDO demo if you have not built your own). Override with `--cohort discovery --kin over4p5` paths as needed.
 Use `--h2-method reml` or `both` for REML.
 
 ---
@@ -105,16 +105,16 @@ The headline metric is total heritability **`h2_sum = Σ h²_k`**, also recorded
 ## Repository structure
 
 ```
-repo/                                  ← GitHub-safe (no subject IDs)
-├── README.md                          ← this file
+.
+├── README.md
 ├── figure1.svg                        ← pipeline overview figure
 ├── run_sum_h2.py                      ← core pipeline (Steps ①–⑥)
-├── sample_selection/                  ← Step ① scripts + docs
+├── sample_selection/                  ← Step ①: KING filter + PSEUDO demo GRM
 │   ├── README.md
 │   ├── build_king_over4p5_discovery.sh
 │   ├── filter_dense_grm_by_ids.py
-│   └── pseudo/                        ← PSEUDO demo GRM/keep (fake IDs)
-├── performance/
+│   └── pseudo/                        ← fake PSEUDO_* IDs for a path check
+├── performance/                       ← scaling benchmarks (v2 / v8 HEreg figures)
 │   ├── README.md
 │   ├── run_benchmark.py
 │   ├── plot_scaling.py
@@ -127,11 +127,6 @@ repo/                                  ← GitHub-safe (no subject IDs)
     ├── plot_scatter.py
     ├── results.json
     └── scatter_3panel_hereg_jagwas.png
-
-repo_local/                            ← local twin of repo/ + ID outputs (not for GitHub)
-└── sample_selection/
-    ├── king_cutoff_over4p5*.txt       ← real subject IDs
-    └── king_over4p5_gcta_discovery.grm.*
 ```
 
 ---
@@ -183,17 +178,7 @@ Pearson r vs JAGWAS loci: HE PCA 0.925 · REML 0.931 · blockwise 0.670.
 
 ## Dependencies
 
-- Python ≥ 3.10, numpy, pandas, scipy, scikit-learn, matplotlib
-- GCTA ≥ 1.94.1 (`--HEreg` and `--reml`)
-- UKB access required (GRM and phenotype data not included)
-
----
-
-## External data (not in repo)
-
-| Path | Description |
-|---|---|
-| `/data484_4/txia2/gwas_practice/T1_ccovar_discovery` | Categorical covariates |
-| `/data484_4/txia2/gwas_practice/T1_qcovar_discovery` | Quantitative covariates |
-| `repo_local/sample_selection/king_over4p5_gcta_discovery` (or `grm_subset_king/`) | KING over4p5 discovery GRM (*n* = 2,158). Public `repo/` has no IDs. See [`sample_selection/README.md`](sample_selection/README.md) |
-| `synthetic_phenotypes/traits_{p}/Feature_{j}.csv` | Synthetic phenotype files used in benchmarks |
+- **Python** ≥ 3.10 with `numpy`, `pandas`, `scipy`, `scikit-learn`, `matplotlib`
+- **GCTA** ≥ 1.94.1 (`--make-grm`, `--HEreg`, `--reml`)
+- **KING** (pairwise kinship → `.kin0`)
+- **PLINK 2** (optional; BGEN → bed for KING)
