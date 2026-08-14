@@ -15,18 +15,22 @@
 
 ```text
 35,810  full cohort
-   ├── 22,985  discovery split
-   └──  3,318  related (Kinship ≥ 0.022)
-              └──  2,158  related ∩ discovery   ← analysis GRM
+        │
+        ▼  (1) relatedness filter — Kinship ≥ 0.022
+ 3,318  related keep
+        │
+        ▼  (2) further random filter down to ≈ 2,158
+ 2,158  final analysis GRM
 ```
 
-**Aim for final *n* ≈ 2,158.** After the relatedness filter, apply an extra **random subsample** if needed so the keep list lands near that size. A ~⅔ discovery split is what this UKB run used; it is **not** required — any random fraction (or a second downsample of the related set) is fine if the end count is ≈ 2,158.
+In this UKB run, step (2) was done by intersecting with a **random ~⅔ discovery cohort** (22,985 / 35,810 → related ∩ discovery = **2,158**). That ⅔ fraction is **only what we used** — not a rule. On your data, after kinship you may need a **different random proportion** (via `DISC_FRAC`, or a second downsample of the related list) so the final keep is still ≈ **2,158**.
 
 ---
 
-## Filter rule
+## Filter rule (two steps)
 
-Keep every sample in ≥1 KING pair with **Kinship ≥ 0.022** (no upper bound). Then intersect with / randomly subsample toward the discovery analysis set.
+1. **Kinship:** keep every sample in ≥1 KING pair with **Kinship ≥ 0.022** (no upper bound; keep both members).
+2. **Size:** randomly filter that related set down to **≈ 2,158**. Here we used ∩ random ~⅔ discovery; **choose another proportion if needed** so you land near 2,158.
 
 | Label | KING kinship |
 |---|---|
@@ -43,7 +47,7 @@ Keep every sample in ≥1 KING pair with **Kinship ≥ 0.022** (no upper bound).
 | Genotypes | BGEN+`.sample` or PLINK bed (for KING and/or GCTA) |
 | Dense GCTA GRM | `prefix.grm.{id,bin,N.bin}` — required for HE/REML; subset to the final keep list |
 | Relatedness table | KING `.kin0` **or** threshold the GRM (see below) |
-| Discovery / size control | Optional ID list, or random subsample so final *n* ≈ 2,158 |
+| Discovery / size control | Random filter **after** kinship so final *n* ≈ 2,158 (⅔ worked here; tune your fraction) |
 
 PSEUDO demo (fake IDs, *n* = 27): [`pseudo/`](pseudo/).
 
@@ -80,10 +84,11 @@ gcta64 --bfile your_genotypes --make-grm --out your_full_grm --thread-num 8
 ```bash
 cd sample_selection
 
-# Random discovery split (default fraction ≈ ⅔; change DISC_FRAC if needed)
+# After kinship, random size filter (default ≈⅔; set DISC_FRAC to another proportion if needed to hit ≈2158)
 KIN0=/path/to/king_output.kin0 \
 GRM_PREFIX=/path/to/your_full_grm \
 RANDOM_DISC=1 \
+DISC_FRAC=0.6666667 \
 FORCE=1 bash build_king_over4p5_discovery.sh
 
 # Or pass your own discovery / size-control ID list
@@ -99,7 +104,7 @@ FORCE=1 bash build_king_over4p5_discovery.sh
 | `GRM_PREFIX` | Full dense GRM prefix |
 | `DISC_ID` | Optional FID/IID list |
 | `RANDOM_DISC=1` | Random subset of GRM `.grm.id` |
-| `DISC_FRAC` | Random fraction (default `0.6666667`) — tune so final *n* ≈ 2,158 |
+| `DISC_FRAC` | Random fraction of the cohort for step (2) (default `0.6666667`). **Change this** if ~⅔ does not yield final *n* ≈ 2,158 |
 | `DISC_SEED` | RNG seed (default `42`) |
 | `SKIP_GRM=1` | Keep lists only |
 
@@ -109,6 +114,6 @@ Writes `king_cutoff_over4p5*.txt`, `sample_ids_*.txt`, and `king_over4p5_gcta_di
 
 ## Mistakes to avoid
 
-1. **Final *n* far from ≈ 2,158** — after relatedness filtering, apply an additional random subsample (any fraction, not only ⅔) so the keep list is near this UKB size.
+1. **Stopping after kinship only** — related *n* (here 3,318) is too large; you still need a random size filter down to ≈ **2,158** (⅔ was ours; pick another proportion if needed).
 2. **Using KING’s unrelated filter** — that drops relateds; HE then has almost no relatedness signal.
 3. **Treating the PSEUDO demo as real data** — `pseudo/` is fake `PSEUDO_*` IDs for a path check only.
