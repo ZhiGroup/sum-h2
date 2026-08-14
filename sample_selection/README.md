@@ -23,7 +23,7 @@
  2,158  final analysis GRM
 ```
 
-Step (2) historically used ∩ a ~⅔ discovery ID list. For new runs prefer **`DISC_TARGET_N=2158`** (exact random sample from the related keep) or pass your own **`DISC_ID`** list.
+Step (2) historically used ∩ a ~⅔ discovery ID list. For new runs prefer **`DISC_TARGET_N=2158`** or pass your own **`DISC_ID`** list.
 
 ---
 
@@ -45,21 +45,27 @@ Step (2) historically used ∩ a ~⅔ discovery ID list. For new runs prefer **`
 | Need | Notes |
 |---|---|
 | Genotypes | BGEN+`.sample` or PLINK bed (for KING and/or GCTA) |
-| Dense GCTA GRM | `prefix.grm.{id,bin,N.bin}` — required for HE/REML; subset to the final keep list |
-| Relatedness table | KING `.kin0` **or** threshold the GRM (see below) |
-| Size control | **`DISC_TARGET_N`** and/or **`DISC_ID`** (no fraction parameter) |
+| Dense GCTA GRM | `prefix.grm.{id,bin,N.bin}` — required for HE/REML |
+| Relatedness | KING `.kin0` **(optional)** — or threshold the GRM (Procedure step 2) |
+| Size control | **`DISC_TARGET_N`** and/or **`DISC_ID`** |
 
 PSEUDO demo (fake IDs, *n* = 27): [`pseudo/`](pseudo/).
 
-### Skip KING (optional)
-
-KING kinship φ ≈ half GCTA relatedness A. You can select from the GRM alone: keep pairs with **A ≥ ~0.044** (≈ 2 × 0.022), both members, then apply `DISC_TARGET_N` / `DISC_ID`. You still need the dense GRM for HE/REML.
-
 ---
 
-## Build genotypes → `.kin0` + GRM
+## Procedure
 
-**KING** (PLINK bed only; convert BGEN with plink2 if needed):
+### 1. Build the dense GCTA GRM (required)
+
+```bash
+gcta64 --bfile your_genotypes --make-grm --out your_full_grm --thread-num 8
+# or: gcta64 --bgen your.bgen --sample your.sample --make-grm --out your_full_grm
+# → your_full_grm.grm.id / .grm.bin / .grm.N.bin
+```
+
+### 2. Relatedness table — KING `.kin0` (optional)
+
+Default path: run KING on PLINK bed (convert BGEN with plink2 if needed):
 
 ```bash
 wget https://www.kingrelatedness.com/Linux-king.tar.gz
@@ -68,18 +74,11 @@ tar -xzf Linux-king.tar.gz -C king_bin && chmod +x king_bin/king
 # → king_output.kin0
 ```
 
-Do **not** use KING’s “unrelated keep” step — we keep relateds. See also [KING Download](https://www.kingrelatedness.com/Download.shtml).
+Do **not** use KING’s “unrelated keep” step — we keep relateds. See [KING Download](https://www.kingrelatedness.com/Download.shtml).
 
-**GCTA dense GRM:**
+**Skip KING:** kinship φ ≈ half GCTA relatedness A. Select from the GRM alone — keep pairs with **A ≥ ~0.044** (≈ 2 × 0.022), both members — then go to step 3 with `DISC_TARGET_N` / `DISC_ID`. You still need the dense GRM from step 1 for HE/REML.
 
-```bash
-gcta64 --bfile your_genotypes --make-grm --out your_full_grm --thread-num 8
-# or: gcta64 --bgen your.bgen --sample your.sample --make-grm --out your_full_grm
-```
-
----
-
-## Run the builder
+### 3. Run the builder (size filter + GRM subset)
 
 ```bash
 cd sample_selection
@@ -106,7 +105,7 @@ FORCE=1 bash build_king_over4p5_discovery.sh
 
 | Env | Meaning |
 |---|---|
-| `KIN0` | `.kin0` path |
+| `KIN0` | `.kin0` path (omit / unused if you already built keep lists from the GRM) |
 | `GRM_PREFIX` | Full dense GRM prefix |
 | **`DISC_TARGET_N`** | Exact final related keep size (e.g. `2158`) |
 | **`DISC_ID`** | FID/IID discovery list; final = related ∩ list |
