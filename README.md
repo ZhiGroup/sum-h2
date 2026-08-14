@@ -91,14 +91,14 @@ Under `--output_root` (default `results/`):
 
 | Output | Description |
 |---|---|
+| **`arena_manifest.json`** | **Upload this to the [Overall heritability ARENA](https://huggingface.co/spaces/no1summmer/Overall_heritiability_ARENA)** — signed run summary (`sum_h2`, sample/feature counts, method, GRM preset, artifact list) |
 | `pca_features/Feature_*.csv` | Decorrelated PC phenotypes for GCTA |
 | `hereg_h2_summary.csv` / `hereg_aggregate.json` | Per-PC HEreg h² and total `h2_sum` |
 | `reml_h2_summary.csv` / `reml_aggregate.json` | Same for REML (if `--h2-method reml` or `both`) |
 | `timing_resources.csv` / `.md` | Wall time and peak RSS by step |
 | `pca_explained_variance_ratio.json` | PCA explained-variance diagnostics |
-| `arena_manifest.json` | Run manifest of written artifacts |
 
-The headline metric is total heritability **`h2_sum = Σ h²_k`**.
+The headline metric is total heritability **`h2_sum = Σ h²_k`**, also recorded in `arena_manifest.json` for leaderboard upload.
 
 ---
 
