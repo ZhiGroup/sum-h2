@@ -6,8 +6,8 @@ Writes:
   IDP_synthetic_trait_scaling_time_resource_v8_hereg.png
   IDP_synthetic_sample_size_scaling_time_resource_v2_hereg.png
 
-Methods plotted: HE PCA 128PCs, REML, tr(P⁻¹G), SVD(P⁻¹G), blockwise mvGREML
-(plus whitened kernel when present). EVR0.8 and QR are not included.
+Methods plotted: HE PCA 128PCs, REML, tr(P⁻¹G), SVD(P⁻¹G), blockwise mvGREML.
+EVR0.8, QR, and whitened kernel are not included.
 """
 
 from __future__ import annotations
@@ -31,7 +31,6 @@ TRAIT_KEY_MAP: list[tuple[str, str]] = [
     ("tr_PinvG_e2e",                  "tr(P^-1G)"),
     ("SVD_PinvG_e2e",                 "SVD(P^-1G)"),
     ("blockwise_mvGREML_trG_trP_e2e", "blockwise_multivariate_GREML (trG/trP)"),
-    ("HE_whitened_kernel_e2e",        "HE pipeline - whitened kernel (ours)"),
 ]
 
 SAMPLE_KEY_MAP: list[tuple[str, str]] = list(TRAIT_KEY_MAP)
@@ -42,7 +41,6 @@ COLOR_MAP: dict[str, str] = {
     "tr(P^-1G)":                                 "green",
     "SVD(P^-1G)":                                "blue",
     "blockwise_multivariate_GREML (trG/trP)":    "purple",
-    "HE pipeline - whitened kernel (ours)":      "black",
     "fastGWA + FUMA (estimated)":                "dimgray",
 }
 
@@ -52,7 +50,6 @@ MARKER_MAP: dict[str, str] = {
     "tr(P^-1G)":                                 "^",
     "SVD(P^-1G)":                                "D",
     "blockwise_multivariate_GREML (trG/trP)":    "v",
-    "HE pipeline - whitened kernel (ours)":      "o",
 }
 
 FASTGWA_TRAIT_P   = [100,   1_000,    10_000,     100_000]
@@ -96,11 +93,6 @@ def _estimate_100k_for_label(label: str, p_arr: list, t_m: np.ndarray, mb_m: np.
             return None
         est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel * ratio_svd_tr)
         return est, mb_dense, "max(quadratic, tr_kernel×SVD/tr ratio)"
-    if label == "HE pipeline - whitened kernel (ours)":
-        if finite_t.sum() < 2:
-            return None
-        est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel)
-        return est, mb_dense, f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
     return None
 
 

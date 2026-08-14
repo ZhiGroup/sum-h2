@@ -6,8 +6,8 @@ Results are reported as end-to-end wall time and peak process RSS, sweeping two 
 - **Trait-count scaling** (`p` = 100 → 100 k, fixed n ≈ 2 158 subjects)
 - **Sample-size scaling** (`n` = 719 / 2 158 / 6 474, fixed p = 1 000 traits)
 
-Methods: **HE PCA 128PCs**, **REML**, **tr(P⁻¹G)**, **SVD(P⁻¹G)**, **blockwise mvGREML**
-(and whitened kernel when present). EVR0.8 and QR variants are not used in this repo.
+Methods: **HE PCA 128PCs**, **REML**, **tr(P⁻¹G)**, **SVD(P⁻¹G)**, **blockwise mvGREML**.
+EVR0.8, QR, and whitened kernel are not used in this repo.
 
 ---
 
