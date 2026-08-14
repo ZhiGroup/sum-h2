@@ -4,7 +4,27 @@
 
 Haseman–Elston needs relatedness, so this step **keeps related people**. It does **not** drop one person from each related pair.
 
-You can start from **only PLINK bed/bim/fam or BGEN + sample**. This folder documents how to produce the three pieces the builder needs, then run the filter.
+### UKB cohort sizes (this run — count the files)
+
+| Stage | *n* | Source file |
+|---|---:|---|
+| **Full cohort** | **35,810** | `gwas_practice/grm/gcta/ukb_all.grm.id` (same *n* as `ukb_all.fam`) |
+| **Discovery (~⅔)** | **22,985** | `gwas_practice/grm/gcta/ukb_grm_discovery.grm.id` |
+| Related (Kinship ≥ 0.022) | 3,318 | `king_cutoff_over4p5.txt` |
+| **Final analysis set** | **2,158** | `king_cutoff_over4p5_discovery.txt` / `king_over4p5_gcta_discovery.grm.id` |
+
+```text
+35,810  full GRM cohort          ← ukb_all.grm.id
+   │
+   ├── 22,985  discovery (~⅔)    ← ukb_grm_discovery.grm.id
+   └──  3,318  related (Kinship ≥ 0.022 on full cohort)
+              │
+              └──  2,158  related ∩ discovery   ← target keep / HE GRM
+```
+
+**Target:** whatever filter you use, the **final selected *n* should stay ≈ 2,158** (same relatedness / discovery rule on a similar-sized cohort). Do not shrink or expand this set arbitrarily if you want results comparable to this UKB run.
+
+You can start from **only PLINK bed/bim/fam or BGEN + sample**. This folder documents how to produce the pieces the builder needs, then run the filter.
 
 ---
 
@@ -14,23 +34,34 @@ You can start from **only PLINK bed/bim/fam or BGEN + sample**. This folder docu
 
 | You have | What to do first |
 |---|---|
-| PLINK `.bed/.bim/.fam` | Go to [A] for `.kin0`, [B] for dense GRM |
+| PLINK `.bed/.bim/.fam` | Go to [A] for `.kin0` (or skip KING — see below), [B] for dense GRM |
 | BGEN + `.sample` | Convert to bed (or feed GCTA `--bgen`), then [A] + [B] |
 | Already have `.kin0` + dense GRM | Skip to [C] |
+| Dense GCTA GRM only | You may **skip KING** (see below) |
 
 ### Inputs the builder uses
 
 | Input | Required? | Notes |
 |---|---|---|
-| **KING `.kin0`** | **Yes** | Pairwise kinship table (`FID1 ID1 FID2 ID2 … Kinship`) |
+| **KING `.kin0`** | Default yes | Pairwise kinship (`FID1 ID1 FID2 ID2 … Kinship`). Optional if you threshold the GCTA GRM instead |
 | **Full dense GRM** | **Yes** | GCTA `prefix.grm.{id,bin,N.bin}` on the same samples |
 | **Discovery ID list** | **No** | If omitted, take a **random ~⅔** of the cohort (GRM `.grm.id`; see [C]) |
 
+### Skipping KING (optional)
+
+KING kinship φ ≈ **half** the GCTA GRM relatedness A (empirically A ≈ 2φ). You can skip KING and select related samples from the **dense GRM** alone:
+
+- Keep every sample in ≥1 pair with **A ≥ ~0.044** (≈ 2 × 0.022), no upper bound; keep **both** members  
+- Then ∩ discovery (~⅔)  
+- Subset the GRM to that keep list  
+
+You still need the **dense GCTA GRM** for HE/REML — `.kin0` cannot replace it. The default builder uses KING so the published rule stays `Kinship ≥ 0.022`.
+
+**Whichever path you take, aim for final *n* ≈ 2,158** on this UKB-sized discovery cohort (22,985 → related ∩ discovery).
+
 ### Discovery vs KING
 
-Discovery ≈ random **~⅔ of the cohort** (or your ID list). Intersect with the related keep list either after KING (as in this builder) or by restricting earlier — either is fine for the protocol; what matters is ending with related ∩ discovery.
-
-UKB reference: related *n* = 3,318 → discovery *n* = **2,158**.
+Discovery ≈ random **~⅔ of the cohort** (here 22,985 / 35,810). Intersect with the related keep list. What matters is ending at **related ∩ discovery ≈ 2,158**.
 
 ### Outputs
 
@@ -181,7 +212,7 @@ FORCE=1 bash build_king_over4p5_discovery.sh
 
 | Env var | Meaning |
 |---|---|
-| `KIN0` | Path to `.kin0` (required) |
+| `KIN0` | Path to `.kin0` (default path; omit only if you select relateds from the GRM yourself) |
 | `GRM_PREFIX` | Full dense GRM prefix (required for GRM subset) |
 | `DISC_ID` | Optional FID/IID discovery list |
 | `RANDOM_DISC=1` | Ignore `DISC_ID`; sample ~⅔ of GRM `.grm.id` |
@@ -209,8 +240,9 @@ Keep-list IDs and `.grm.id` must match **in the same order**.
 
 | Mistake | What happens |
 |---|---|
+| Final *n* far from **≈ 2,158** | Not comparable to this UKB HE run — check discovery ≈ ⅔ and relatedness threshold |
+| Skip dense GRM / invent GRM from `.kin0` only | Subset GCTA `--make-grm` output instead |
 | Run KING’s unrelated filter | Drops relateds; HE has almost no relatedness |
-| Skip full dense GRM / invent GRM from `.kin0` only | Subset GCTA `--make-grm` output instead |
 | Kinship in `[0.015625, 0.125]` | Drops 1st-degree |
 | Treat **PSEUDO** demo results as real | Demo GRM is synthetic — replace with your data |
 | Commit real keep lists / `.grm.id` to GitHub | Use `repo_local/` for real IDs |
