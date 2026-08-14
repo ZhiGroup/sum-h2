@@ -32,7 +32,7 @@ The repository benchmarks heritability estimation strategies across trait counts
 
 **Step ③** Demean and z-score every feature column (mean 0, SD 1).
 
-**Step ④** Dimensionality reduction with **PCA** — top-K principal components, K = min(128, n − 1, p).
+**Step ④** **Decorrelate** the phenotype matrix with PCA (same width when input is already 128-d: 128 → 128 principal components). This is a linear change of basis, not a dimensionality reduction step for the usual 128-d embeddings.
 
 **Step ⑤** For each component PC_k, GCTA estimates SNP heritability:
 
@@ -49,6 +49,18 @@ Using either:
 Covariates corrected inside GCTA: age, sex, genotyping array, assessment centre.
 
 **Step ⑥** Total heritability is the sum `h²_sum = Σ h²_k` across all retained components.
+
+---
+
+## Inputs
+
+| Input | Required | Notes |
+|---|---|---|
+| **Genotypes** | Yes | BGEN + `.sample`, or PLINK bed/bim/fam (for KING / GCTA GRM) |
+| **Phenotypes** | Yes | Feature matrix / CSV (or directory of `Feature_*.csv`) aligned to sample IDs |
+| **Covariates** | Yes | Categorical (`--ccovar`) and quantitative (`--qcovar`), e.g. age, sex, array, centre |
+| **Software** | Yes | **GCTA** (≥ 1.94, `--make-grm`, `--HEreg` / `--reml`), **KING** (kinship → `.kin0`), PLINK 2 if converting BGEN→bed |
+| **GRM / keep list** | Yes | Dense GCTA GRM on related ∩ discovery samples — build via [`sample_selection/`](sample_selection/README.md), or use the **PSEUDO** demo for a path check |
 
 ---
 
@@ -70,6 +82,23 @@ python3 run_sum_h2.py \
 
 Default GRM / sample list: `repo_local/sample_selection/` or `grm_subset_king/` (public `sample_selection/` is ID-free). Override with `--cohort discovery --kin over4p5` paths as needed.
 Use `--h2-method reml` or `both` for REML.
+
+---
+
+## Outputs
+
+Under `--output_root` (default `results/`):
+
+| Output | Description |
+|---|---|
+| `pca_features/Feature_*.csv` | Decorrelated PC phenotypes for GCTA |
+| `hereg_h2_summary.csv` / `hereg_aggregate.json` | Per-PC HEreg h² and total `h2_sum` |
+| `reml_h2_summary.csv` / `reml_aggregate.json` | Same for REML (if `--h2-method reml` or `both`) |
+| `timing_resources.csv` / `.md` | Wall time and peak RSS by step |
+| `pca_explained_variance_ratio.json` | PCA explained-variance diagnostics |
+| `arena_manifest.json` | Run manifest of written artifacts |
+
+The headline metric is total heritability **`h2_sum = Σ h²_k`**.
 
 ---
 

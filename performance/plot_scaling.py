@@ -57,7 +57,8 @@ MARKER_MAP: dict[str, str] = {
 
 FASTGWA_TRAIT_P   = [100,   1_000,    10_000,     100_000]
 FASTGWA_TRAIT_SEC = [18_000, 180_000, 1_800_000, 18_000_000]
-FASTGWA_SAMPLE_N   = [719,     2_158,   6_474]
+# Match observed n in results.json sample_scaling rows (approx. 719 / 2158 / 6474)
+FASTGWA_SAMPLE_N   = [717,     2_153,   6_458]
 FASTGWA_SAMPLE_SEC = [180_000, 180_000, 180_000]
 
 
@@ -68,50 +69,99 @@ def _loglog_quadratic(p: np.ndarray, t: np.ndarray, p_new: float) -> float:
     return float(10 ** float(np.polyval(coef, np.log10(float(p_new)))))
 
 
-def _append_100k_estimates(p_arr: list, series_time: dict, series_mb: dict,
-                            dense_est: dict) -> tuple[list, dict, dict, dict]:
-    tr_kernel = float(dense_est["estimate_100k"]["total_wall_sec_est"])
-    mb_dense   = float(dense_est["estimate_100k"]["memory"]["approx_with_solve_temporaries_GB"]) * 1024.0
-    ratio_svd_tr = 181719.06869811536 / 24270.171238115352
+def _estimate_100k_for_label(label: str, p_arr: list, t_m: np.ndarray, mb_m: np.ndarray,
+                             tr_kernel: float, mb_dense: float, ratio_svd_tr: float
+                             ) -> tuple[float, float, str] | None:
+    """Return (time_est, mb_est, method_note) or None if this series has no estimate."""
     ps = np.asarray(p_arr, dtype=float)
     p_new = 100_000.0
-    new_time: dict = {}; new_mb: dict = {}; methods: dict = {}
+    finite_t = np.isfinite(t_m)
+    finite_m = np.isfinite(mb_m)
+    if label in ("HE pipeline - PCA 128PCs (ours)", "REML pipeline",
+                 "blockwise_multivariate_GREML (trG/trP)"):
+        if finite_t.sum() < 2:
+            return None
+        est = _loglog_quadratic(ps[finite_t], t_m[finite_t], p_new)
+        mb_est = _loglog_quadratic(ps[finite_m], mb_m[finite_m], p_new) if finite_m.sum() >= 2 else mb_dense
+        if label == "blockwise_multivariate_GREML (trG/trP)":
+            mb_est = min(mb_est, mb_dense * 1.05)
+        return est, mb_est, "log10–log10 quadratic fit"
+    if label == "tr(P^-1G)":
+        if finite_t.sum() < 2:
+            return None
+        est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel)
+        return est, mb_dense, f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
+    if label == "SVD(P^-1G)":
+        if finite_t.sum() < 2:
+            return None
+        est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel * ratio_svd_tr)
+        return est, mb_dense, "max(quadratic, tr_kernel×SVD/tr ratio)"
+    if label == "HE pipeline - whitened kernel (ours)":
+        if finite_t.sum() < 2:
+            return None
+        est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel)
+        return est, mb_dense, f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
+    return None
+
+
+def _append_100k_estimates(p_arr: list, series_time: dict, series_mb: dict,
+                            extrap: dict, dense_est: dict
+                            ) -> tuple[list, dict, dict, dict, dict]:
+    """Fill or append p=100k. Never leave a NaN gap before the estimate (that breaks the line)."""
+    tr_kernel = float(dense_est["estimate_100k"]["total_wall_sec_est"])
+    mb_dense = float(dense_est["estimate_100k"]["memory"]["approx_with_solve_temporaries_GB"]) * 1024.0
+    ratio_svd_tr = 181719.06869811536 / 24270.171238115352
+
+    p_arr = list(p_arr)
+    new_time = {k: list(v) for k, v in series_time.items()}
+    new_mb = {k: list(v) for k, v in series_mb.items()}
+    new_ex = {k: list(v) for k, v in extrap.items()}
+    methods: dict = {}
+
+    has_100k = 100_000 in p_arr
+    idx_100k = p_arr.index(100_000) if has_100k else None
+    # Fit using measured points only (exclude existing 100k slot if present)
+    fit_ps = [p for i, p in enumerate(p_arr) if not (has_100k and i == idx_100k)]
+
     for _, label in TRAIT_KEY_MAP:
-        t_m = np.asarray(series_time[label], dtype=float)
-        mb_m = np.asarray(series_mb[label], dtype=float)
-        if label in ("HE pipeline - PCA 128PCs (ours)", "REML pipeline",
-                     "blockwise_multivariate_GREML (trG/trP)"):
-            est = _loglog_quadratic(ps, t_m, p_new)
-            mb_est = _loglog_quadratic(ps, mb_m, p_new)
-            if label == "blockwise_multivariate_GREML (trG/trP)":
-                mb_est = min(mb_est, mb_dense * 1.05)
-            new_time[label] = list(series_time[label]) + [est]
-            new_mb[label]   = list(series_mb[label]) + [mb_est]
-            methods[label] = "log10–log10 quadratic fit"
-        elif label == "tr(P^-1G)":
-            est = max(_loglog_quadratic(ps, t_m, p_new), tr_kernel)
-            new_time[label] = list(series_time[label]) + [est]
-            new_mb[label]   = list(series_mb[label]) + [mb_dense]
-            methods[label] = f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
-        elif label == "SVD(P^-1G)":
-            est = max(_loglog_quadratic(ps, t_m, p_new), tr_kernel * ratio_svd_tr)
-            new_time[label] = list(series_time[label]) + [est]
-            new_mb[label]   = list(series_mb[label]) + [mb_dense]
-            methods[label] = "max(quadratic, tr_kernel×SVD/tr ratio)"
-        elif label == "HE pipeline - whitened kernel (ours)":
-            # may be all-nan if stripped from some rows
-            if not np.any(np.isfinite(t_m)):
-                new_time[label] = list(series_time[label])
-                new_mb[label] = list(series_mb[label])
+        t_m = np.asarray(new_time[label], dtype=float)
+        mb_m = np.asarray(new_mb[label], dtype=float)
+        if has_100k:
+            # Keep measured 100k; only replace NaN/skipped with an estimate.
+            if np.isfinite(t_m[idx_100k]):
+                new_ex[label][idx_100k] = False
+                methods[label] = "measured"
                 continue
-            est = max(_loglog_quadratic(ps[np.isfinite(t_m)], t_m[np.isfinite(t_m)], p_new), tr_kernel)
-            new_time[label] = list(series_time[label]) + [est]
-            new_mb[label]   = list(series_mb[label]) + [mb_dense]
-            methods[label] = f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
+            fit_t = np.asarray([t_m[i] for i, p in enumerate(p_arr) if i != idx_100k], dtype=float)
+            fit_m = np.asarray([mb_m[i] for i, p in enumerate(p_arr) if i != idx_100k], dtype=float)
+            est = _estimate_100k_for_label(label, fit_ps, fit_t, fit_m, tr_kernel, mb_dense, ratio_svd_tr)
+            if est is None:
+                continue
+            t_est, mb_est, note = est
+            new_time[label][idx_100k] = t_est
+            new_mb[label][idx_100k] = mb_est
+            new_ex[label][idx_100k] = True
+            methods[label] = note
         else:
-            new_time[label] = list(series_time[label])
-            new_mb[label]   = list(series_mb[label])
-    return p_arr + [100_000], new_time, new_mb, methods
+            est = _estimate_100k_for_label(label, p_arr, t_m, mb_m, tr_kernel, mb_dense, ratio_svd_tr)
+            if est is None:
+                continue
+            t_est, mb_est, note = est
+            new_time[label].append(t_est)
+            new_mb[label].append(mb_est)
+            new_ex[label].append(True)
+            methods[label] = note
+
+    if not has_100k:
+        # All series that received an estimate were appended; pad any that did not
+        for _, label in TRAIT_KEY_MAP:
+            if len(new_time[label]) == len(p_arr):
+                new_time[label].append(float("nan"))
+                new_mb[label].append(float("nan"))
+                new_ex[label].append(False)
+        p_arr = p_arr + [100_000]
+
+    return p_arr, new_time, new_mb, methods, new_ex
 
 
 def _positive(y: np.ndarray) -> np.ndarray:
@@ -164,10 +214,8 @@ def plot_trait_scaling(store: dict, *, out_path: Path | None = None) -> None:
                 extrap[label].append(bool(block.get("extrapolated", False)))
 
     if dense_est:
-        p_plot, series_time, series_mb, _ = _append_100k_estimates(
-            p_values, series_time, series_mb, dense_est)
-        for label in series_time:
-            extrap[label] = list(extrap.get(label, [])) + [True]
+        p_plot, series_time, series_mb, _, extrap = _append_100k_estimates(
+            p_values, series_time, series_mb, extrap, dense_est)
     else:
         p_plot = p_values
 
@@ -176,9 +224,11 @@ def plot_trait_scaling(store: dict, *, out_path: Path | None = None) -> None:
     for _, label in TRAIT_KEY_MAP:
         yt = np.asarray(series_time[label], dtype=float)
         ym = np.asarray(series_mb[label], dtype=float)
-        if not np.any(np.isfinite(yt)):
+        if len(yt) != len(x) or not np.any(np.isfinite(yt)):
             continue
         ex = np.asarray(extrap[label], dtype=bool)
+        if len(ex) != len(x):
+            ex = np.resize(ex, len(x))
         c = COLOR_MAP[label]; m = MARKER_MAP[label]
         _plot_segments(ax1, x, yt, ex, c, m, label)
         _plot_segments(ax2, x, ym, ex, c, m, label)
@@ -211,25 +261,24 @@ def plot_sample_scaling(store: dict, *, out_path: Path | None = None) -> None:
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.5, 5.2))
     for key, label in SAMPLE_KEY_MAP:
-        if any(key not in r or (isinstance(r.get(key), dict) and (r[key].get("failed") or r[key].get("skipped")))
-               for r in rows):
-            # still plot if some rows have data
-            if not any(isinstance(r.get(key), dict) and r[key].get("wall_sec") is not None for r in rows):
-                continue
         yt, ym = [], []
-        ok = True
         for r in rows:
             block = r.get(key, {})
-            if not isinstance(block, dict) or block.get("failed") or block.get("skipped") or "wall_sec" not in block:
-                ok = False
-                break
-            yt.append(float(block["wall_sec"]))
-            ym.append(float(block["max_rss_mb"]))
-        if not ok:
+            if (not isinstance(block, dict) or block.get("failed") or block.get("skipped")
+                    or block.get("wall_sec") is None):
+                yt.append(float("nan"))
+                ym.append(float("nan"))
+            else:
+                yt.append(float(block["wall_sec"]))
+                ym.append(float(block.get("max_rss_mb", float("nan"))))
+        yt_a = np.asarray(yt, dtype=float)
+        ym_a = np.asarray(ym, dtype=float)
+        if not np.any(np.isfinite(yt_a)):
             continue
+        ex = np.zeros(len(x), dtype=bool)
         c = COLOR_MAP[label]; m = MARKER_MAP[label]
-        ax1.loglog(x, yt, marker=m, linewidth=2, color=c, label=label)
-        ax2.loglog(x, ym, marker=m, linewidth=2, color=c, label=label)
+        _plot_segments(ax1, x, yt_a, ex, c, m, label)
+        _plot_segments(ax2, x, ym_a, ex, c, m, label)
 
     fgwa_x = np.asarray(FASTGWA_SAMPLE_N, dtype=float)
     fgwa_t = np.asarray(FASTGWA_SAMPLE_SEC, dtype=float)

@@ -53,8 +53,8 @@ Reads all data from `results.json`.
 
 | Method | Dimensionality | Heritability | Covariates |
 |---|---|---|---|
-| HE pipeline – PCA 128PCs | PCA, K = min(128, n−1, p) | GCTA `--HEreg` | `--covar` / `--qcovar` in GCTA |
-| REML pipeline | same PCA | GCTA `--reml` | see fairness note in prior docs |
+| HE pipeline – PCA 128PCs | Decorrelate with PCA (128→128 for 128-d input) | GCTA `--HEreg` | `--covar` / `--qcovar` in GCTA |
+| REML pipeline | same PCA decorrelation | GCTA `--reml` | see fairness note in prior docs |
 | tr(P⁻¹G) / SVD(P⁻¹G) | none (full traits) | dense trait-space ops | Python residualization |
 | blockwise mvGREML | none | blockwise tr(G)/tr(P) | Python residualization |
 

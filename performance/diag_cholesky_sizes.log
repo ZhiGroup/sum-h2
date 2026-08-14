@@ -1,7 +1,0 @@
-=== k=40000 ===
-k=40000 build done in 212.8s, starting cholesky...
-k=40000 cholesky OK in 117.7s
-=== k=60000 ===
-k=60000 build done in 708.2s, starting cholesky...
-k=60000 cholesky OK in 408.5s
-=== k=80000 ===
