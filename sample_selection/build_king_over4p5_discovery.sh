@@ -23,10 +23,8 @@
 #
 # Usage
 #   cd AGENT/repo/sample_selection
-#   bash build_king_over4p5_discovery.sh
-#   FORCE=1 bash build_king_over4p5_discovery.sh
 #   DISC_TARGET_N=2158 KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
-#   RANDOM_DISC=1 DISC_FRAC=0.67 KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
+#   DISC_ID=/path/to/discovery_ids.txt KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
 #   SKIP_GRM=1 bash build_king_over4p5_discovery.sh
 #
 # =============================================================================
@@ -51,13 +49,12 @@ KING_DIR="${KING_DIR:-/data484_4/txia2/gwas_practice/KING}"
 GCTA_DIR="${GCTA_DIR:-/data484_4/txia2/gwas_practice/grm/gcta}"
 BFILE="${BFILE:-$GCTA_DIR/ukb_all}"
 KIN0="${KIN0:-$KING_DIR/king_output.kin0}"
-# Discovery size control:
-#   DISC_TARGET_N  — preferred: exact final related keep size (e.g. 2158)
-#   DISC_FRAC      — only if DISC_TARGET_N unset: random fraction of full GRM IDs
-#   DISC_ID        — optional pre-made FID/IID list (then optionally downsampled to DISC_TARGET_N)
+# Size control after kinship — pick ONE:
+#   DISC_TARGET_N  — exact final related keep size (e.g. 2158); random sample from over4p5 related
+#   DISC_ID        — FID/IID discovery list; final keep = related ∩ this list
+# If both set: sample DISC_TARGET_N from (related ∩ DISC_ID).
+# If neither set: default DISC_TARGET_N=2158.
 DISC_ID="${DISC_ID:-}"
-RANDOM_DISC="${RANDOM_DISC:-0}"
-DISC_FRAC="${DISC_FRAC:-0.6666667}"
 DISC_TARGET_N="${DISC_TARGET_N:-}"
 DISC_SEED="${DISC_SEED:-42}"
 GRM_PREFIX="${GRM_PREFIX:-$GCTA_DIR/ukb_all}"
@@ -68,9 +65,9 @@ SKIP_GRM="${SKIP_GRM:-0}"
 
 need() { [[ -f "$1" ]] || { echo "Missing: $1" >&2; exit 1; }; }
 
-# Default DISC_ID on this machine only when not using target-N / RANDOM_DISC.
-if [[ -z "$DISC_ID" && -z "$DISC_TARGET_N" && "$RANDOM_DISC" != "1" && -f "$GCTA_DIR/ukb_grm_discovery.grm.id" ]]; then
-  DISC_ID="$GCTA_DIR/ukb_grm_discovery.grm.id"
+if [[ -z "$DISC_ID" && -z "$DISC_TARGET_N" ]]; then
+  DISC_TARGET_N=2158
+  echo "Neither DISC_ID nor DISC_TARGET_N set → default DISC_TARGET_N=2158"
 fi
 
 # -----------------------------------------------------------------------------
@@ -95,11 +92,10 @@ need "$PYTHON_FILTER"
 need "${GRM_PREFIX}.grm.id"
 
 # -----------------------------------------------------------------------------
-# Steps 1–2: related keep lists from .kin0, then size filter (TARGET_N or frac)
+# Steps 1–2: related keep from .kin0, then DISC_TARGET_N and/or DISC_ID
 # -----------------------------------------------------------------------------
 echo "=== Steps 1–2: KING cutoff lists + discovery / size filter ==="
-python3 - "$KIN0" "${DISC_ID:-}" "$OUT_DIR" "$FORCE" "${GRM_PREFIX}.grm.id" \
-  "$RANDOM_DISC" "$DISC_FRAC" "$DISC_SEED" "${DISC_TARGET_N:-}" <<'PY'
+python3 - "$KIN0" "${DISC_ID:-}" "$OUT_DIR" "$FORCE" "$DISC_SEED" "${DISC_TARGET_N:-}" <<'PY'
 import random
 import sys
 from pathlib import Path
@@ -110,11 +106,8 @@ kin0_path = Path(sys.argv[1])
 disc_arg = sys.argv[2].strip()
 out_dir = Path(sys.argv[3])
 force = sys.argv[4] == "1"
-grm_id_path = Path(sys.argv[5])
-random_disc = sys.argv[6] == "1"
-disc_frac = float(sys.argv[7])
-disc_seed = int(sys.argv[8])
-disc_target_raw = sys.argv[9].strip()
+disc_seed = int(sys.argv[5])
+disc_target_raw = sys.argv[6].strip()
 disc_target_n = int(disc_target_raw) if disc_target_raw else None
 
 THRESHOLDS = {
@@ -157,7 +150,6 @@ print(f"  kin0 pairs: {len(kin):,}  Kinship [{kin['Kinship'].min():.4f}, {kin['K
 
 rng = random.Random(disc_seed)
 
-# Related sets per threshold (needed before optional exact-N sample)
 related = {}
 for label, thr in THRESHOLDS.items():
     sub = kin.loc[kin["Kinship"] >= thr]
@@ -167,30 +159,15 @@ for label, thr in THRESHOLDS.items():
         "full": sorted(ids, key=lambda t: sort_key(t[0])),
     }
 
-# Optional pre-filter discovery pool (file or random fraction of full GRM)
 disc_path = Path(disc_arg) if disc_arg else None
-have_disc_file = disc_path is not None and disc_path.is_file()
-use_random_pool = random_disc or (not have_disc_file and disc_target_n is None)
 disc_pool = None
-if have_disc_file and disc_target_n is None:
+if disc_path is not None:
+    if not disc_path.is_file():
+        raise SystemExit(f"DISC_ID not found: {disc_path}")
     disc_df = load_fid_iid(disc_path)
     disc_pool = set(zip(disc_df["FID"], disc_df["IID"]))
-    print(f"  discovery IDs ({disc_path}): {len(disc_pool):,}")
-elif use_random_pool:
-    pool_df = load_fid_iid(grm_id_path)
-    pool = list(zip(pool_df["FID"], pool_df["IID"]))
-    k = max(1, int(round(len(pool) * disc_frac)))
-    disc_pool = set(rng.sample(pool, k=min(k, len(pool))))
-    disc_out = out_dir / "discovery_ids_random_frac.txt"
-    write_keep(disc_out, sorted(disc_pool, key=lambda t: sort_key(t[0])), body_sep="\t")
-    print(f"  discovery pool: random {disc_frac:.3f} of GRM IDs → {len(disc_pool):,}  (seed={disc_seed})")
-    print(f"           wrote {disc_out.name}")
-elif have_disc_file:
-    disc_df = load_fid_iid(disc_path)
-    disc_pool = set(zip(disc_df["FID"], disc_df["IID"]))
-    print(f"  discovery IDs ({disc_path}): {len(disc_pool):,}  (will downsample to DISC_TARGET_N if set)")
+    print(f"  DISC_ID ({disc_path}): {len(disc_pool):,}")
 
-# Exact size control: sample from over4p5 related (∩ disc_pool if present)
 if disc_target_n is not None:
     if disc_target_n < 1:
         raise SystemExit("DISC_TARGET_N must be >= 1")
@@ -198,11 +175,11 @@ if disc_target_n is not None:
     if disc_pool is not None:
         base = [p for p in base if p in disc_pool]
     if not base:
-        raise SystemExit("No related samples available to sample DISC_TARGET_N from")
+        raise SystemExit("No related samples available for DISC_TARGET_N")
     n_take = min(disc_target_n, len(base))
     if n_take < disc_target_n:
         print(
-            f"  WARNING: only {len(base)} related candidates < DISC_TARGET_N={disc_target_n}; "
+            f"  WARNING: only {len(base)} candidates < DISC_TARGET_N={disc_target_n}; "
             f"using all {n_take}"
         )
     disc = set(rng.sample(base, k=n_take))
@@ -210,14 +187,15 @@ if disc_target_n is not None:
     write_keep(disc_out, sorted(disc, key=lambda t: sort_key(t[0])), body_sep="\t")
     print(
         f"  DISC_TARGET_N={disc_target_n}: random sample from over4p5 related"
-        f"{' ∩ discovery pool' if disc_pool is not None else ''}"
+        f"{' ∩ DISC_ID' if disc_pool is not None else ''}"
         f" → {n_take}  (seed={disc_seed})"
     )
     print(f"           wrote {disc_out.name}")
-else:
+elif disc_pool is not None:
     disc = disc_pool
-    if disc is None:
-        raise SystemExit("Need DISC_TARGET_N, DISC_ID, or RANDOM_DISC=1 / DISC_FRAC")
+    print(f"  using DISC_ID as-is (related ∩ DISC_ID for each threshold)")
+else:
+    raise SystemExit("Need DISC_TARGET_N and/or DISC_ID")
 
 for label, thr in THRESHOLDS.items():
     full = related[label]["full"]
