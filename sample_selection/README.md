@@ -76,38 +76,40 @@ tar -xzf Linux-king.tar.gz -C king_bin && chmod +x king_bin/king
 
 Do **not** use KING’s “unrelated keep” step — we keep relateds. See [KING Download](https://www.kingrelatedness.com/Download.shtml).
 
-**Skip KING:** kinship φ ≈ half GCTA relatedness A. Select from the GRM alone — keep pairs with **A ≥ ~0.044** (≈ 2 × 0.022), both members — then go to step 3 with `DISC_TARGET_N` / `DISC_ID`. You still need the dense GRM from step 1 for HE/REML.
+**Skip KING:** set **`USE_GRM_REL=1`** in step 3 to threshold the dense GRM directly (**A ≥ 0.044** for over4p5 ≈ 2 × 0.022). You still need the GRM from step 1.
 
 ### 3. Run the builder (size filter + GRM subset)
+
+Relatedness can come from KING (default) **or** directly from the dense GRM.
 
 ```bash
 cd sample_selection
 
-# Exact final n after kinship (default if you set nothing: DISC_TARGET_N=2158)
+# A) KING .kin0 + exact final n
 KIN0=/path/to/king_output.kin0 \
 GRM_PREFIX=/path/to/your_full_grm \
 DISC_TARGET_N=2158 \
 FORCE=1 bash build_king_over4p5_discovery.sh
 
-# Or your discovery ID list (related ∩ DISC_ID)
-KIN0=/path/to/king_output.kin0 \
-DISC_ID=/path/to/discovery_ids.txt \
+# B) Skip KING — filter relatedness on GCTA GRM (over4p5: A ≥ 0.044 ≈ 2×0.022)
+USE_GRM_REL=1 \
 GRM_PREFIX=/path/to/your_full_grm \
+DISC_TARGET_N=2158 \
 FORCE=1 bash build_king_over4p5_discovery.sh
 
-# Both: sample DISC_TARGET_N from (related ∩ DISC_ID)
+# C) Discovery ID list (related ∩ DISC_ID); works with KIN0 or USE_GRM_REL=1
 KIN0=/path/to/king_output.kin0 \
 DISC_ID=/path/to/discovery_ids.txt \
-DISC_TARGET_N=2158 \
 GRM_PREFIX=/path/to/your_full_grm \
 FORCE=1 bash build_king_over4p5_discovery.sh
 ```
 
 | Env | Meaning |
 |---|---|
-| `KIN0` | `.kin0` path (omit / unused if you already built keep lists from the GRM) |
-| `GRM_PREFIX` | Full dense GRM prefix |
-| **`DISC_TARGET_N`** | Exact final related keep size (e.g. `2158`) |
+| `GRM_PREFIX` | Full dense GRM prefix (**required**) |
+| `KIN0` | `.kin0` path (default relatedness source) |
+| **`USE_GRM_REL=1`** | Skip KING; keep pairs with GRM **A ≥ 0.044** (over4p5), **0.03125** (over5), **0.0625** (over4) |
+| **`DISC_TARGET_N`** | Exact final related keep size (e.g. `2158`; default if unset) |
 | **`DISC_ID`** | FID/IID discovery list; final = related ∩ list |
 | `DISC_SEED` | RNG seed when sampling `DISC_TARGET_N` (default `42`) |
 | `SKIP_GRM=1` | Keep lists only |

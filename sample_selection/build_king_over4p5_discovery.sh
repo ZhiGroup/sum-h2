@@ -1,37 +1,24 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Build KING over4p5 (and over4 / over5) sample lists + discovery GCTA GRMs
+# Build over4p5 (and over4 / over5) sample lists + discovery GCTA GRMs
 # =============================================================================
 #
-# Lives in AGENT/repo/sample_selection/ (self-contained with filter_dense_grm_by_ids.py).
-# See README.md in this folder for the filter rule and expected n = 2,158.
+# Relatedness source:
+#   default         KING .kin0  (Kinship ≥ 0.022 for over4p5)
+#   USE_GRM_REL=1   dense GCTA GRM (A ≥ 0.044 for over4p5; ≈ 2× KING)
 #
-# What "over4p5" means
-#   Keep every sample that appears in at least one KING pair with
-#       Kinship >= 0.022
-#   There is NO upper bound (1st-degree relatives are kept).
-#
-# Thresholds (KING kinship coefficient, no upper bound)
-#   over5   >= 0.015625   (~5th degree)
-#   over4p5 >= 0.022      (between 4th and 5th)
-#   over4   >= 0.03125    (~4th degree)
-#
-# Expected counts (ukb_all, n=35,810)
-#   over4p5        3,318   → discovery  2,158
-#   over4          2,262   → discovery  1,470
-#   over5         12,643   → discovery  8,126
+# Size control after relatedness: DISC_TARGET_N and/or DISC_ID (default 2158).
 #
 # Usage
-#   cd AGENT/repo/sample_selection
 #   DISC_TARGET_N=2158 KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
-#   DISC_ID=/path/to/discovery_ids.txt KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
-#   SKIP_GRM=1 bash build_king_over4p5_discovery.sh
+#   USE_GRM_REL=1 DISC_TARGET_N=2158 GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
+#   DISC_ID=/path/ids.txt KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
+#   SKIP_GRM=1 ...
 #
 # =============================================================================
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# Public repo/ must not hold real subject IDs. Prefer writing to sibling repo_local/.
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 AGENT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 if [[ -z "${OUT_DIR:-}" ]]; then
@@ -49,14 +36,10 @@ KING_DIR="${KING_DIR:-/data484_4/txia2/gwas_practice/KING}"
 GCTA_DIR="${GCTA_DIR:-/data484_4/txia2/gwas_practice/grm/gcta}"
 BFILE="${BFILE:-$GCTA_DIR/ukb_all}"
 KIN0="${KIN0:-$KING_DIR/king_output.kin0}"
-# Size control after kinship — pick ONE:
-#   DISC_TARGET_N  — exact final related keep size (e.g. 2158); random sample from over4p5 related
-#   DISC_ID        — FID/IID discovery list; final keep = related ∩ this list
-# If both set: sample DISC_TARGET_N from (related ∩ DISC_ID).
-# If neither set: default DISC_TARGET_N=2158.
 DISC_ID="${DISC_ID:-}"
 DISC_TARGET_N="${DISC_TARGET_N:-}"
 DISC_SEED="${DISC_SEED:-42}"
+USE_GRM_REL="${USE_GRM_REL:-0}"
 GRM_PREFIX="${GRM_PREFIX:-$GCTA_DIR/ukb_all}"
 PYTHON_FILTER="${PYTHON_FILTER:-$SCRIPT_DIR/filter_dense_grm_by_ids.py}"
 KING_EXE="${KING_EXE:-$KING_DIR/king_bin/king}"
@@ -70,51 +53,53 @@ if [[ -z "$DISC_ID" && -z "$DISC_TARGET_N" ]]; then
   echo "Neither DISC_ID nor DISC_TARGET_N set → default DISC_TARGET_N=2158"
 fi
 
-# -----------------------------------------------------------------------------
-# Step 0 (only if kin0 is absent): KING --kinship on bed
-# Download KING as in gwas_practice/KING/run_king_pipeline.sh if needed.
-# -----------------------------------------------------------------------------
-if [[ ! -f "$KIN0" ]]; then
-  echo "=== Step 0: KING --kinship (kin0 missing) ==="
-  if [[ ! -x "$KING_EXE" ]]; then
-    echo "Downloading KING (Linux 64-bit) → $KING_DIR/king_bin ..."
-    mkdir -p "$KING_DIR/king_bin"
-    wget -q https://www.kingrelatedness.com/Linux-king.tar.gz -O "$KING_DIR/Linux-king.tar.gz"
-    tar -xzf "$KING_DIR/Linux-king.tar.gz" -C "$KING_DIR/king_bin"
-    KING_EXE="$KING_DIR/king_bin/king"
-    chmod +x "$KING_EXE"
-  fi
-  need "${BFILE}.bed"
-  "$KING_EXE" -b "${BFILE}.bed" --kinship --prefix "${KIN0%.kin0}" --degree 5
-fi
-need "$KIN0"
 need "$PYTHON_FILTER"
 need "${GRM_PREFIX}.grm.id"
 
-# -----------------------------------------------------------------------------
-# Steps 1–2: related keep from .kin0, then DISC_TARGET_N and/or DISC_ID
-# -----------------------------------------------------------------------------
-echo "=== Steps 1–2: KING cutoff lists + discovery / size filter ==="
-python3 - "$KIN0" "${DISC_ID:-}" "$OUT_DIR" "$FORCE" "$DISC_SEED" "${DISC_TARGET_N:-}" <<'PY'
+if [[ "$USE_GRM_REL" == "1" ]]; then
+  echo "=== Relatedness from GCTA GRM (USE_GRM_REL=1; over4p5 A≥0.044) ==="
+  need "${GRM_PREFIX}.grm.bin"
+  REL_MODE="grm"
+  REL_SRC="$GRM_PREFIX"
+else
+  if [[ ! -f "$KIN0" ]]; then
+    echo "=== KING --kinship (kin0 missing) ==="
+    if [[ ! -x "$KING_EXE" ]]; then
+      echo "Downloading KING (Linux 64-bit) → $KING_DIR/king_bin ..."
+      mkdir -p "$KING_DIR/king_bin"
+      wget -q https://www.kingrelatedness.com/Linux-king.tar.gz -O "$KING_DIR/Linux-king.tar.gz"
+      tar -xzf "$KING_DIR/Linux-king.tar.gz" -C "$KING_DIR/king_bin"
+      KING_EXE="$KING_DIR/king_bin/king"
+      chmod +x "$KING_EXE"
+    fi
+    need "${BFILE}.bed"
+    "$KING_EXE" -b "${BFILE}.bed" --kinship --prefix "${KIN0%.kin0}" --degree 5
+  fi
+  need "$KIN0"
+  REL_MODE="kin0"
+  REL_SRC="$KIN0"
+fi
+
+echo "=== Cutoff lists + discovery / size filter ==="
+python3 - "$REL_MODE" "$REL_SRC" "${DISC_ID:-}" "$OUT_DIR" "$FORCE" "$DISC_SEED" "${DISC_TARGET_N:-}" <<'PY'
 import random
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
-kin0_path = Path(sys.argv[1])
-disc_arg = sys.argv[2].strip()
-out_dir = Path(sys.argv[3])
-force = sys.argv[4] == "1"
-disc_seed = int(sys.argv[5])
-disc_target_raw = sys.argv[6].strip()
+rel_mode = sys.argv[1]
+rel_src = Path(sys.argv[2])
+disc_arg = sys.argv[3].strip()
+out_dir = Path(sys.argv[4])
+force = sys.argv[5] == "1"
+disc_seed = int(sys.argv[6])
+disc_target_raw = sys.argv[7].strip()
 disc_target_n = int(disc_target_raw) if disc_target_raw else None
 
-THRESHOLDS = {
-    "over5": 0.015625,
-    "over4p5": 0.022,
-    "over4": 0.03125,
-}
+THRESHOLDS_KIN0 = {"over5": 0.015625, "over4p5": 0.022, "over4": 0.03125}
+THRESHOLDS_GRM = {"over5": 0.03125, "over4p5": 0.044, "over4": 0.0625}
 
 def load_fid_iid(path: Path):
     df = pd.read_csv(path, sep=r"\s+", header=None, names=["FID", "IID"], dtype=str)
@@ -139,25 +124,73 @@ def write_iids(path: Path, pairs):
         for _, iid in pairs:
             f.write(f"{iid}\n")
 
-kin = pd.read_csv(
-    kin0_path,
-    sep=r"\s+",
-    dtype={"FID1": str, "ID1": str, "FID2": str, "ID2": str},
-)
-for c in ("FID1", "ID1", "FID2", "ID2"):
-    kin[c] = kin[c].str.strip()
-print(f"  kin0 pairs: {len(kin):,}  Kinship [{kin['Kinship'].min():.4f}, {kin['Kinship'].max():.4f}]")
+def related_from_kin0(kin0_path: Path):
+    kin = pd.read_csv(
+        kin0_path, sep=r"\s+",
+        dtype={"FID1": str, "ID1": str, "FID2": str, "ID2": str},
+    )
+    for c in ("FID1", "ID1", "FID2", "ID2"):
+        kin[c] = kin[c].str.strip()
+    print(f"  kin0 pairs: {len(kin):,}  Kinship [{kin['Kinship'].min():.4f}, {kin['Kinship'].max():.4f}]")
+    out = {}
+    for label, thr in THRESHOLDS_KIN0.items():
+        sub = kin.loc[kin["Kinship"] >= thr]
+        ids = set(zip(sub["FID1"], sub["ID1"])) | set(zip(sub["FID2"], sub["ID2"]))
+        out[label] = {
+            "pairs": len(sub),
+            "full": sorted(ids, key=lambda t: sort_key(t[0])),
+            "thr": thr,
+            "thr_name": "Kinship",
+        }
+    return out
+
+def related_from_grm(grm_prefix: Path):
+    grm_id = Path(str(grm_prefix) + ".grm.id")
+    grm_bin = Path(str(grm_prefix) + ".grm.bin")
+    df = load_fid_iid(grm_id)
+    n = len(df)
+    nval = n * (n + 1) // 2
+    print(f"  scanning GRM {grm_bin.name}  n={n:,}  lower-tri={nval:,} …")
+    data = np.fromfile(grm_bin, dtype=np.float32, count=nval)
+    if len(data) != nval:
+        raise SystemExit(f"GRM size mismatch: got {len(data)}, expected {nval}")
+
+    fids = df["FID"].tolist()
+    iids = df["IID"].tolist()
+    ids_by = {lab: set() for lab in THRESHOLDS_GRM}
+    pairs_by = {lab: 0 for lab in THRESHOLDS_GRM}
+    pos = 0
+    for i in range(n):
+        for j in range(i + 1):
+            if i != j:
+                a = float(data[pos])
+                for lab, thr in THRESHOLDS_GRM.items():
+                    if a >= thr:
+                        ids_by[lab].add((fids[i], iids[i]))
+                        ids_by[lab].add((fids[j], iids[j]))
+                        pairs_by[lab] += 1
+            pos += 1
+
+    out = {}
+    for label, thr in THRESHOLDS_GRM.items():
+        out[label] = {
+            "pairs": pairs_by[label],
+            "full": sorted(ids_by[label], key=lambda t: sort_key(t[0])),
+            "thr": thr,
+            "thr_name": "GRM_A",
+        }
+        print(f"  GRM {label}: A>={thr}  pairs={pairs_by[label]:,}  samples={len(ids_by[label]):,}")
+    return out
+
+if rel_mode == "kin0":
+    related = related_from_kin0(rel_src)
+elif rel_mode == "grm":
+    related = related_from_grm(rel_src)
+else:
+    raise SystemExit(f"Unknown REL_MODE={rel_mode}")
 
 rng = random.Random(disc_seed)
-
-related = {}
-for label, thr in THRESHOLDS.items():
-    sub = kin.loc[kin["Kinship"] >= thr]
-    ids = set(zip(sub["FID1"], sub["ID1"])) | set(zip(sub["FID2"], sub["ID2"]))
-    related[label] = {
-        "pairs": len(sub),
-        "full": sorted(ids, key=lambda t: sort_key(t[0])),
-    }
+thresholds = THRESHOLDS_KIN0 if rel_mode == "kin0" else THRESHOLDS_GRM
 
 disc_path = Path(disc_arg) if disc_arg else None
 disc_pool = None
@@ -193,13 +226,15 @@ if disc_target_n is not None:
     print(f"           wrote {disc_out.name}")
 elif disc_pool is not None:
     disc = disc_pool
-    print(f"  using DISC_ID as-is (related ∩ DISC_ID for each threshold)")
+    print("  using DISC_ID as-is (related ∩ DISC_ID for each threshold)")
 else:
     raise SystemExit("Need DISC_TARGET_N and/or DISC_ID")
 
-for label, thr in THRESHOLDS.items():
+for label in thresholds:
     full = related[label]["full"]
     n_pairs = related[label]["pairs"]
+    thr_v = related[label]["thr"]
+    thr_name = related[label]["thr_name"]
     disc_keep = [p for p in full if p in disc]
 
     cutoff = out_dir / f"king_cutoff_{label}.txt"
@@ -214,7 +249,7 @@ for label, thr in THRESHOLDS.items():
         write_iids(sids, disc_keep)
 
     print(
-        f"  {label:7s}  Kinship>={thr:<8}  pairs={n_pairs:6d}  "
+        f"  {label:7s}  {thr_name}>={thr_v:<8}  pairs={n_pairs:6d}  "
         f"samples={len(full):5d}  discovery={len(disc_keep):5d}"
     )
     print(f"           {cutoff.name}")
@@ -222,13 +257,6 @@ for label, thr in THRESHOLDS.items():
     print(f"           {sids.name}")
 PY
 
-# -----------------------------------------------------------------------------
-# Step 3: subset the full GCTA dense GRM to the keep lists
-#   king_cutoff_over4p5.txt            → king_over4p5_gcta.grm.*
-#   king_cutoff_over4p5_discovery.txt  → king_over4p5_gcta_discovery.grm.*
-#   king_cutoff_over4_discovery.txt    → king_over4_gcta_discovery.grm.*
-# Sample order in .grm.id follows the keep file (header skipped).
-# -----------------------------------------------------------------------------
 if [[ "$SKIP_GRM" == "1" ]]; then
   echo "SKIP_GRM=1: not writing .grm.bin"
   exit 0
@@ -248,18 +276,15 @@ filter_grm() {
   python3 -u "$PYTHON_FILTER" "$GRM_PREFIX" "$keep" -o "$out"
 }
 
-echo "=== Step 3: filter dense GCTA GRM ==="
-echo "--- over4p5 full (3,318) ---"
+echo "=== Subset dense GCTA GRM ==="
+echo "--- over4p5 full ---"
 filter_grm "$OUT_DIR/king_cutoff_over4p5.txt" "$OUT_DIR/king_over4p5_gcta"
-
-echo "--- over4p5 discovery (2,158) ---"
+echo "--- over4p5 discovery ---"
 filter_grm "$OUT_DIR/king_cutoff_over4p5_discovery.txt" "$OUT_DIR/king_over4p5_gcta_discovery"
-
-echo "--- over4 discovery (1,470) ---"
+echo "--- over4 discovery ---"
 filter_grm "$OUT_DIR/king_cutoff_over4_discovery.txt" "$OUT_DIR/king_over4_gcta_discovery"
 
 echo ""
 echo "Done."
 echo "  keep : $OUT_DIR/king_cutoff_over4p5_discovery.txt"
 echo "  GRM  : $OUT_DIR/king_over4p5_gcta_discovery.grm.bin"
-echo "  GRM  : $OUT_DIR/king_over4_gcta_discovery.grm.bin"
