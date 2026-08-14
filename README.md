@@ -56,11 +56,11 @@ Covariates corrected inside GCTA: age, sex, genotyping array, assessment centre.
 
 | Input | Required | Notes |
 |---|---|---|
+| **Software** | Yes | **GCTA** (≥ 1.94, `--make-grm`, `--HEreg` / `--reml`), **KING** (kinship → `.kin0`), PLINK 2 if converting BGEN→bed |
 | **Genotypes** | Yes | BGEN + `.sample`, or PLINK bed/bim/fam (for KING / GCTA GRM) |
+| **Sample ID list / GRM** | Yes | Dense GCTA GRM on related ∩ discovery samples — build via [`sample_selection/`](sample_selection/README.md), or use the **PSEUDO** demo for a path check |
 | **Phenotypes** | Yes | Feature matrix / CSV (or directory of `Feature_*.csv`) aligned to sample IDs |
 | **Covariates** | Yes | Categorical (`--ccovar`) and quantitative (`--qcovar`), e.g. age, sex, array, centre |
-| **Software** | Yes | **GCTA** (≥ 1.94, `--make-grm`, `--HEreg` / `--reml`), **KING** (kinship → `.kin0`), PLINK 2 if converting BGEN→bed |
-| **GRM / keep list** | Yes | Dense GCTA GRM on related ∩ discovery samples — build via [`sample_selection/`](sample_selection/README.md), or use the **PSEUDO** demo for a path check |
 
 ---
 
