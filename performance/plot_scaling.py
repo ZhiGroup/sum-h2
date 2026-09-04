@@ -6,7 +6,7 @@ Writes:
   IDP_synthetic_trait_scaling_time_resource_v8_hereg.png
   IDP_synthetic_sample_size_scaling_time_resource_v2_hereg.png
 
-Methods plotted: HE PCA 128PCs, REML, tr(P⁻¹G), SVD(P⁻¹G), blockwise mvGREML.
+Methods plotted: HE (ours), REML, tr(P⁻¹G), SVD(P⁻¹G), blockwise mvGREML.
 EVR0.8, QR, and whitened kernel are not included.
 """
 
@@ -18,37 +18,40 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import numpy as np
 
 _HERE = Path(__file__).resolve().parent
 RESULTS_JSON = _HERE / "results.json"
 OUT_TRAIT  = _HERE / "IDP_synthetic_trait_scaling_time_resource_v8_hereg.png"
 OUT_SAMPLE = _HERE / "IDP_synthetic_sample_size_scaling_time_resource_v2_hereg.png"
+_AVAILABLE_FONTS = {f.name for f in font_manager.fontManager.ttflist}
+PANEL_FONT_FAMILY = "Arial" if "Arial" in _AVAILABLE_FONTS else "Nimbus Sans"
 
 TRAIT_KEY_MAP: list[tuple[str, str]] = [
-    ("HE_pipeline_PCA_capped_e2e",    "HE pipeline - PCA 128PCs (ours)"),
-    ("REML_PCA_capped_e2e",           "REML pipeline"),
-    ("tr_PinvG_e2e",                  "tr(P^-1G)"),
-    ("SVD_PinvG_e2e",                 "SVD(P^-1G)"),
+    ("HE_pipeline_PCA_capped_e2e",    "HE (ours)"),
+    ("REML_PCA_capped_e2e",           "REML"),
+    ("tr_PinvG_e2e",                  r"tr(P$^{-1}$G)"),
+    ("SVD_PinvG_e2e",                 r"SVD(P$^{-1}$G)"),
     ("blockwise_mvGREML_trG_trP_e2e", "blockwise_multivariate_GREML (trG/trP)"),
 ]
 
 SAMPLE_KEY_MAP: list[tuple[str, str]] = list(TRAIT_KEY_MAP)
 
 COLOR_MAP: dict[str, str] = {
-    "HE pipeline - PCA 128PCs (ours)":           "red",
-    "REML pipeline":                              "gold",
-    "tr(P^-1G)":                                 "green",
-    "SVD(P^-1G)":                                "blue",
+    "HE (ours)":                                  "red",
+    "REML":                                       "gold",
+    r"tr(P$^{-1}$G)":                             "green",
+    r"SVD(P$^{-1}$G)":                           "blue",
     "blockwise_multivariate_GREML (trG/trP)":    "purple",
-    "fastGWA + FUMA (estimated)":                "dimgray",
+    "fastGWA + FUMA (baseline)":                 "dimgray",
 }
 
 MARKER_MAP: dict[str, str] = {
-    "HE pipeline - PCA 128PCs (ours)":           "o",
-    "REML pipeline":                              "s",
-    "tr(P^-1G)":                                 "^",
-    "SVD(P^-1G)":                                "D",
+    "HE (ours)":                                  "o",
+    "REML":                                       "s",
+    r"tr(P$^{-1}$G)":                             "^",
+    r"SVD(P$^{-1}$G)":                           "D",
     "blockwise_multivariate_GREML (trG/trP)":    "v",
 }
 
@@ -74,7 +77,7 @@ def _estimate_100k_for_label(label: str, p_arr: list, t_m: np.ndarray, mb_m: np.
     p_new = 100_000.0
     finite_t = np.isfinite(t_m)
     finite_m = np.isfinite(mb_m)
-    if label in ("HE pipeline - PCA 128PCs (ours)", "REML pipeline",
+    if label in ("HE (ours)", "REML",
                  "blockwise_multivariate_GREML (trG/trP)"):
         if finite_t.sum() < 2:
             return None
@@ -83,12 +86,12 @@ def _estimate_100k_for_label(label: str, p_arr: list, t_m: np.ndarray, mb_m: np.
         if label == "blockwise_multivariate_GREML (trG/trP)":
             mb_est = min(mb_est, mb_dense * 1.05)
         return est, mb_est, "log10–log10 quadratic fit"
-    if label == "tr(P^-1G)":
+    if label == r"tr(P$^{-1}$G)":
         if finite_t.sum() < 2:
             return None
         est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel)
         return est, mb_dense, f"max(quadratic, dense O(p³) kernel est={tr_kernel:.1f}s)"
-    if label == "SVD(P^-1G)":
+    if label == r"SVD(P$^{-1}$G)":
         if finite_t.sum() < 2:
             return None
         est = max(_loglog_quadratic(ps[finite_t], t_m[finite_t], p_new), tr_kernel * ratio_svd_tr)
@@ -163,6 +166,13 @@ def _positive(y: np.ndarray) -> np.ndarray:
     return out
 
 
+def _add_panel_labels(ax1, ax2) -> None:
+    for ax, label in [(ax1, "a"), (ax2, "b")]:
+        ax.text(-0.09, 1.08, label, transform=ax.transAxes,
+                fontsize=28, fontweight="bold", fontfamily=PANEL_FONT_FAMILY,
+                va="top", ha="left")
+
+
 def _plot_segments(ax, x: np.ndarray, y_raw: np.ndarray, extrap: np.ndarray,
                    color, marker: str, label: str) -> None:
     shown = False
@@ -227,9 +237,9 @@ def plot_trait_scaling(store: dict, *, out_path: Path | None = None) -> None:
 
     fgwa_x = np.asarray(FASTGWA_TRAIT_P, dtype=float)
     fgwa_t = np.asarray(FASTGWA_TRAIT_SEC, dtype=float)
-    fgwa_color = COLOR_MAP["fastGWA + FUMA (estimated)"]
+    fgwa_color = COLOR_MAP["fastGWA + FUMA (baseline)"]
     ax1.loglog(fgwa_x, fgwa_t, linestyle="--", linewidth=2, color=fgwa_color,
-               marker="*", markersize=9, label="fastGWA + FUMA (estimated)")
+               marker="*", markersize=9, label="fastGWA + FUMA (baseline)")
     for px, pt in zip(FASTGWA_TRAIT_P, FASTGWA_TRAIT_SEC):
         h = pt / 3600
         ax1.annotate(f"{h:.0f}h" if h < 100 else f"{h:.0f}h",
@@ -241,6 +251,7 @@ def plot_trait_scaling(store: dict, *, out_path: Path | None = None) -> None:
         ax.set_title(title)
         ax.set_xlabel("Trait count p (n≈2158 fixed)"); ax.set_ylabel(ylabel)
         ax.legend(loc="upper left", fontsize=8)
+    _add_panel_labels(ax1, ax2)
     fig.tight_layout()
     fig.savefig(out_path, dpi=160); plt.close(fig)
     print(f"[plot] Saved → {out_path}")
@@ -274,9 +285,9 @@ def plot_sample_scaling(store: dict, *, out_path: Path | None = None) -> None:
 
     fgwa_x = np.asarray(FASTGWA_SAMPLE_N, dtype=float)
     fgwa_t = np.asarray(FASTGWA_SAMPLE_SEC, dtype=float)
-    fgwa_color = COLOR_MAP["fastGWA + FUMA (estimated)"]
+    fgwa_color = COLOR_MAP["fastGWA + FUMA (baseline)"]
     ax1.loglog(fgwa_x, fgwa_t, linestyle="--", linewidth=2, color=fgwa_color,
-               marker="*", markersize=9, label="fastGWA + FUMA (estimated)")
+               marker="*", markersize=9, label="fastGWA + FUMA (baseline)")
     for nx, nt in zip(FASTGWA_SAMPLE_N, FASTGWA_SAMPLE_SEC):
         h = nt / 3600
         ax1.annotate(f"{h:.0f}h", (float(nx), float(nt)),
@@ -289,6 +300,7 @@ def plot_sample_scaling(store: dict, *, out_path: Path | None = None) -> None:
         ax.set_xlabel("Sample count n (p=1000 fixed)"); ax.set_ylabel(ylabel)
         ax.set_xticks(list(x)); ax.set_xticklabels([str(int(v)) for v in x])
         ax.legend(loc="upper left", fontsize=8)
+    _add_panel_labels(ax1, ax2)
     fig.tight_layout()
     fig.savefig(out_path, dpi=160); plt.close(fig)
     print(f"[plot] Saved → {out_path}")

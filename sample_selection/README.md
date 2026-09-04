@@ -1,125 +1,85 @@
 # Sample selection (KING over4p5)
 
-**Step ①:** choose who goes into the analysis GRM. Haseman–Elston needs relatedness, so we **keep related people** (both members of each pair) — we do **not** drop one person per family.
+## Historical 2,158-person analysis cohort
 
----
+The historical 2,158-person cohort remains important for reproducing earlier discovery analyses. It was obtained by taking the participants in at least one KING pair with **Kinship ≥ 0.022** and intersecting them with the historical **22,985-person discovery split**. The intersection produced the 2,158-person cohort. This is historical provenance, not the rule for new temporary test cohorts.
 
-## UKB sizes (this run)
+## Temporary deterministic cohort while RAP is unavailable
+
+For now, since the RAP platform is currently unavailable, we cannot enforce the use of a shared test cohort (which we will do after RAP opens). As a temporary solution, users should apply a kinship threshold of **≥ 0.022** and **include** all UK Biobank participants who occur in at least one qualifying KING pair, among participants with both brain MRI and genetic data (August 2020). This produces a finite and deterministic test cohort of approximately **8,000 participants** from **84,361 participants**.
 
 | Stage | *n* | Traced from |
 |---|---:|---|
-| Full cohort | **35,810** | `ukb_all.grm.id` / `ukb_all.fam` |
-| Discovery split (historical) | **22,985** | `ukb_grm_discovery.grm.id` |
-| Related (Kinship ≥ 0.022) | 3,318 | `king_cutoff_over4p5.txt` |
-| **Final keep** | **2,158** | `king_cutoff_over4p5_discovery.txt` |
+| Full eligible cohort | **84,361** | Participants with both brain MRI and August-2020 genetic data |
+| Related (Kinship ≥ 0.022) | **~8,000** | `king_cutoff_over4p5.txt` |
 
 ```text
-35,810  full cohort
+84,361  full eligible cohort
         │
-        ▼  (1) relatedness filter — Kinship ≥ 0.022
- 3,318  related keep
-        │
-        ▼  (2) size filter → ≈ 2,158
- 2,158  final analysis GRM
+        ▼  include every participant in a KING pair with Kinship ≥ 0.022
+ ~8,000  deterministic test cohort
 ```
 
-Step (2) historically used ∩ a ~⅔ discovery ID list. For new runs prefer **`DISC_TARGET_N=2158`** or pass your own **`DISC_ID`** list.
+The new final keep list is derived directly from the full eligible cohort and the KING cutoff, so the same inputs always produce the same cohort. It does not randomly sample 2,158 participants or enforce the historical discovery split.
 
----
+## Filter rule
 
-## Filter rule (two steps)
-
-1. **Kinship:** keep every sample in ≥1 KING pair with **Kinship ≥ 0.022** (no upper bound; keep both members).
-2. **Size:** either **`DISC_TARGET_N=2158`** or **`DISC_ID=`** your discovery list (final keep = related ∩ list).
+1. Identify every participant in at least one KING pair with **Kinship ≥ 0.022**.
+2. Keep every identified participant who is also in the full eligible cohort.
+3. Use those remaining eligible related participants as the deterministic test cohort.
 
 | Label | KING kinship |
-|---|---|
+|---|---:|
 | over5 | ≥ 0.015625 |
 | **over4p5 (default)** | **≥ 0.022** |
 | over4 | ≥ 0.03125 |
-
----
 
 ## Inputs
 
 | Need | Notes |
 |---|---|
-| Genotypes | BGEN+`.sample` or PLINK bed (for KING and/or GCTA) |
-| Dense GCTA GRM | `prefix.grm.{id,bin,N.bin}` — required for HE/REML |
-| Relatedness | KING `.kin0` **(optional)** — or threshold the GRM (Procedure step 2) |
-| Size control | **`DISC_TARGET_N`** and/or **`DISC_ID`** |
-
-PSEUDO demo (fake IDs, *n* = 27): [`pseudo/`](pseudo/).
-
----
+| Genotypes | BGEN plus `.sample`, or PLINK bed, for KING and/or GCTA |
+| Dense GCTA GRM | `prefix.grm.{id,bin,N.bin}`; the `.grm.id` defines the full eligible cohort |
+| Relatedness | KING `.kin0` (default), or threshold the dense GRM directly |
 
 ## Procedure
 
-### 1. Build the dense GCTA GRM (required)
+### 1. Build the dense GCTA GRM
 
 ```bash
 gcta64 --bfile your_genotypes --make-grm --out your_full_grm --thread-num 8
-# or: gcta64 --bgen your.bgen --sample your.sample --make-grm --out your_full_grm
-# → your_full_grm.grm.id / .grm.bin / .grm.N.bin
 ```
 
-### 2. Relatedness table — KING `.kin0` (optional)
-
-Default path: run KING on PLINK bed (convert BGEN with plink2 if needed):
+### 2. Obtain relatedness
 
 ```bash
-wget https://www.kingrelatedness.com/Linux-king.tar.gz
-tar -xzf Linux-king.tar.gz -C king_bin && chmod +x king_bin/king
 ./king_bin/king -b your_genotypes.bed --kinship --prefix king_output --degree 5
-# → king_output.kin0
 ```
 
-Do **not** use KING’s “unrelated keep” step — we keep relateds. See [KING Download](https://www.kingrelatedness.com/Download.shtml).
+Or set `USE_GRM_REL=1` to use the dense-GRM equivalent, **A ≥ 0.044** for over4p5.
 
-**Skip KING:** set **`USE_GRM_REL=1`** in step 3 to threshold the dense GRM directly (**A ≥ 0.044** for over4p5 ≈ 2 × 0.022). You still need the GRM from step 1.
-
-### 3. Run the builder (size filter + GRM subset)
-
-Relatedness can come from KING (default) **or** directly from the dense GRM.
+### 3. Build the deterministic test cohort and its GRM
 
 ```bash
 cd sample_selection
+KIN0=/path/to/king_output.kin0 GRM_PREFIX=/path/to/your_full_grm FORCE=1 bash build_king_over4p5_discovery.sh
 
-# A) KING .kin0 + exact final n
-KIN0=/path/to/king_output.kin0 \
-GRM_PREFIX=/path/to/your_full_grm \
-DISC_TARGET_N=2158 \
-FORCE=1 bash build_king_over4p5_discovery.sh
-
-# B) Skip KING — filter relatedness on GCTA GRM (over4p5: A ≥ 0.044 ≈ 2×0.022)
-USE_GRM_REL=1 \
-GRM_PREFIX=/path/to/your_full_grm \
-DISC_TARGET_N=2158 \
-FORCE=1 bash build_king_over4p5_discovery.sh
-
-# C) Discovery ID list (related ∩ DISC_ID); works with KIN0 or USE_GRM_REL=1
-KIN0=/path/to/king_output.kin0 \
-DISC_ID=/path/to/discovery_ids.txt \
-GRM_PREFIX=/path/to/your_full_grm \
-FORCE=1 bash build_king_over4p5_discovery.sh
+# Or without KING:
+USE_GRM_REL=1 GRM_PREFIX=/path/to/your_full_grm FORCE=1 bash build_king_over4p5_discovery.sh
 ```
 
 | Env | Meaning |
 |---|---|
 | `GRM_PREFIX` | Full dense GRM prefix (**required**) |
-| `KIN0` | `.kin0` path (default relatedness source) |
-| **`USE_GRM_REL=1`** | Skip KING; keep pairs with GRM **A ≥ 0.044** (over4p5), **0.03125** (over5), **0.0625** (over4) |
-| **`DISC_TARGET_N`** | Exact final related keep size (e.g. `2158`; default if unset) |
-| **`DISC_ID`** | FID/IID discovery list; final = related ∩ list |
-| `DISC_SEED` | RNG seed when sampling `DISC_TARGET_N` (default `42`) |
-| `SKIP_GRM=1` | Keep lists only |
+| `KIN0` | KING `.kin0` path |
+| `USE_GRM_REL=1` | Use dense-GRM relatedness; over4p5 is **A ≥ 0.044** |
+| `FORCE=1` | Recreate the deterministic keep list and subset GRM |
+| `SKIP_GRM=1` | Write keep lists only |
 
-Writes `king_cutoff_over4p5*.txt`, `sample_ids_*.txt`, and `king_over4p5_gcta_discovery.grm.*`. Keep-list order must match `.grm.id`.
-
----
+The builder writes `king_cutoff_over4p5.txt` (all eligible participants in qualifying KING pairs), `test_cohort_kinship_ge_over4p5.txt` (the final deterministic keep list), and `test_cohort_over4p5_gcta.grm.*` (the subset dense GRM).
 
 ## Mistakes to avoid
 
-1. **Stopping after kinship only** — related *n* (here 3,318) is too large; set **`DISC_TARGET_N=2158`** or provide **`DISC_ID`**.
-2. **Using KING’s unrelated filter** — that drops relateds; HE then has almost no relatedness signal.
-3. **Treating the PSEUDO demo as real data** — `pseudo/` is fake `PSEUDO_*` IDs for a path check only.
+1. Dropping related participants; this workflow intentionally keeps every eligible participant occurring in at least one qualifying pair.
+2. Using `DISC_TARGET_N=2158` or `DISC_ID` for the new cohort; these historical-selection controls are intentionally unsupported.
+3. Treating the PSEUDO demo as real data.

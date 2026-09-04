@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Build over4p5 (and over4 / over5) sample lists + discovery GCTA GRMs
+# Build deterministic kinship-selected test-cohort lists + GCTA GRMs
 # =============================================================================
 #
 # Relatedness source:
 #   default         KING .kin0  (Kinship ≥ 0.022 for over4p5)
 #   USE_GRM_REL=1   dense GCTA GRM (A ≥ 0.044 for over4p5; ≈ 2× KING)
 #
-# Size control after relatedness: DISC_TARGET_N and/or DISC_ID (default 2158).
+# The final cohort includes every eligible participant in a pair at/above the cutoff.
+# It is deterministic and never a random fixed-size subset.
 #
 # Usage
-#   DISC_TARGET_N=2158 KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
-#   USE_GRM_REL=1 DISC_TARGET_N=2158 GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
-#   DISC_ID=/path/ids.txt KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
+#   KIN0=... GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
+#   USE_GRM_REL=1 GRM_PREFIX=... FORCE=1 bash build_king_over4p5_discovery.sh
 #   SKIP_GRM=1 ...
 #
 # =============================================================================
@@ -36,9 +36,6 @@ KING_DIR="${KING_DIR:-/data484_4/txia2/gwas_practice/KING}"
 GCTA_DIR="${GCTA_DIR:-/data484_4/txia2/gwas_practice/grm/gcta}"
 BFILE="${BFILE:-$GCTA_DIR/ukb_all}"
 KIN0="${KIN0:-$KING_DIR/king_output.kin0}"
-DISC_ID="${DISC_ID:-}"
-DISC_TARGET_N="${DISC_TARGET_N:-}"
-DISC_SEED="${DISC_SEED:-42}"
 USE_GRM_REL="${USE_GRM_REL:-0}"
 GRM_PREFIX="${GRM_PREFIX:-$GCTA_DIR/ukb_all}"
 PYTHON_FILTER="${PYTHON_FILTER:-$SCRIPT_DIR/filter_dense_grm_by_ids.py}"
@@ -48,9 +45,9 @@ SKIP_GRM="${SKIP_GRM:-0}"
 
 need() { [[ -f "$1" ]] || { echo "Missing: $1" >&2; exit 1; }; }
 
-if [[ -z "$DISC_ID" && -z "$DISC_TARGET_N" ]]; then
-  DISC_TARGET_N=2158
-  echo "Neither DISC_ID nor DISC_TARGET_N set → default DISC_TARGET_N=2158"
+if [[ -n "${DISC_TARGET_N:-}" || -n "${DISC_ID:-}" ]]; then
+  echo "DISC_TARGET_N and DISC_ID are no longer supported: the cohort is deterministic from the full GRM ID list." >&2
+  exit 2
 fi
 
 need "$PYTHON_FILTER"
@@ -80,9 +77,8 @@ else
   REL_SRC="$KIN0"
 fi
 
-echo "=== Cutoff lists + discovery / size filter ==="
-python3 - "$REL_MODE" "$REL_SRC" "${DISC_ID:-}" "$OUT_DIR" "$FORCE" "$DISC_SEED" "${DISC_TARGET_N:-}" <<'PY'
-import random
+echo "=== Cutoff lists + deterministic test-cohort filter ==="
+python3 - "$REL_MODE" "$REL_SRC" "$OUT_DIR" "$FORCE" "${GRM_PREFIX}.grm.id" <<'PY'
 import sys
 from pathlib import Path
 
@@ -91,12 +87,9 @@ import pandas as pd
 
 rel_mode = sys.argv[1]
 rel_src = Path(sys.argv[2])
-disc_arg = sys.argv[3].strip()
-out_dir = Path(sys.argv[4])
-force = sys.argv[5] == "1"
-disc_seed = int(sys.argv[6])
-disc_target_raw = sys.argv[7].strip()
-disc_target_n = int(disc_target_raw) if disc_target_raw else None
+out_dir = Path(sys.argv[3])
+force = sys.argv[4] == "1"
+cohort_id_path = Path(sys.argv[5])
 
 THRESHOLDS_KIN0 = {"over5": 0.015625, "over4p5": 0.022, "over4": 0.03125}
 THRESHOLDS_GRM = {"over5": 0.03125, "over4p5": 0.044, "over4": 0.0625}
@@ -189,71 +182,39 @@ elif rel_mode == "grm":
 else:
     raise SystemExit(f"Unknown REL_MODE={rel_mode}")
 
-rng = random.Random(disc_seed)
 thresholds = THRESHOLDS_KIN0 if rel_mode == "kin0" else THRESHOLDS_GRM
-
-disc_path = Path(disc_arg) if disc_arg else None
-disc_pool = None
-if disc_path is not None:
-    if not disc_path.is_file():
-        raise SystemExit(f"DISC_ID not found: {disc_path}")
-    disc_df = load_fid_iid(disc_path)
-    disc_pool = set(zip(disc_df["FID"], disc_df["IID"]))
-    print(f"  DISC_ID ({disc_path}): {len(disc_pool):,}")
-
-if disc_target_n is not None:
-    if disc_target_n < 1:
-        raise SystemExit("DISC_TARGET_N must be >= 1")
-    base = related["over4p5"]["full"]
-    if disc_pool is not None:
-        base = [p for p in base if p in disc_pool]
-    if not base:
-        raise SystemExit("No related samples available for DISC_TARGET_N")
-    n_take = min(disc_target_n, len(base))
-    if n_take < disc_target_n:
-        print(
-            f"  WARNING: only {len(base)} candidates < DISC_TARGET_N={disc_target_n}; "
-            f"using all {n_take}"
-        )
-    disc = set(rng.sample(base, k=n_take))
-    disc_out = out_dir / f"discovery_ids_target_{n_take}.txt"
-    write_keep(disc_out, sorted(disc, key=lambda t: sort_key(t[0])), body_sep="\t")
-    print(
-        f"  DISC_TARGET_N={disc_target_n}: random sample from over4p5 related"
-        f"{' ∩ DISC_ID' if disc_pool is not None else ''}"
-        f" → {n_take}  (seed={disc_seed})"
-    )
-    print(f"           wrote {disc_out.name}")
-elif disc_pool is not None:
-    disc = disc_pool
-    print("  using DISC_ID as-is (related ∩ DISC_ID for each threshold)")
-else:
-    raise SystemExit("Need DISC_TARGET_N and/or DISC_ID")
+cohort_df = load_fid_iid(cohort_id_path)
+cohort = list(zip(cohort_df["FID"], cohort_df["IID"]))
+print(f"  eligible full cohort: {len(cohort):,}")
 
 for label in thresholds:
     full = related[label]["full"]
     n_pairs = related[label]["pairs"]
     thr_v = related[label]["thr"]
     thr_name = related[label]["thr_name"]
-    disc_keep = [p for p in full if p in disc]
+    cohort_set = set(cohort)
+    test_keep = [p for p in full if p in cohort_set]
+    missing_from_cohort = len(full) - len(test_keep)
+    if missing_from_cohort:
+        print(f"  WARNING: {missing_from_cohort} related IDs are absent from the full cohort ID list")
 
     cutoff = out_dir / f"king_cutoff_{label}.txt"
-    cutoff_d = out_dir / f"king_cutoff_{label}_discovery.txt"
-    sids = out_dir / f"sample_ids_king_{label}_discovery.txt"
+    cutoff_test = out_dir / f"test_cohort_kinship_ge_{label}.txt"
+    sids = out_dir / f"sample_ids_test_cohort_kinship_ge_{label}.txt"
 
     if force or not cutoff.is_file():
         write_keep(cutoff, full, body_sep=" ")
-    if force or not cutoff_d.is_file():
-        write_keep(cutoff_d, disc_keep, body_sep="\t")
+    if force or not cutoff_test.is_file():
+        write_keep(cutoff_test, test_keep, body_sep="\t")
     if force or not sids.is_file():
-        write_iids(sids, disc_keep)
+        write_iids(sids, test_keep)
 
     print(
         f"  {label:7s}  {thr_name}>={thr_v:<8}  pairs={n_pairs:6d}  "
-        f"samples={len(full):5d}  discovery={len(disc_keep):5d}"
+        f"related={len(full):5d}  final_keep={len(test_keep):5d}"
     )
     print(f"           {cutoff.name}")
-    print(f"           {cutoff_d.name}")
+    print(f"           {cutoff_test.name}")
     print(f"           {sids.name}")
 PY
 
@@ -277,14 +238,10 @@ filter_grm() {
 }
 
 echo "=== Subset dense GCTA GRM ==="
-echo "--- over4p5 full ---"
-filter_grm "$OUT_DIR/king_cutoff_over4p5.txt" "$OUT_DIR/king_over4p5_gcta"
-echo "--- over4p5 discovery ---"
-filter_grm "$OUT_DIR/king_cutoff_over4p5_discovery.txt" "$OUT_DIR/king_over4p5_gcta_discovery"
-echo "--- over4 discovery ---"
-filter_grm "$OUT_DIR/king_cutoff_over4_discovery.txt" "$OUT_DIR/king_over4_gcta_discovery"
+echo "--- over4p5 deterministic test cohort ---"
+filter_grm "$OUT_DIR/test_cohort_kinship_ge_over4p5.txt" "$OUT_DIR/test_cohort_over4p5_gcta"
 
 echo ""
 echo "Done."
-echo "  keep : $OUT_DIR/king_cutoff_over4p5_discovery.txt"
-echo "  GRM  : $OUT_DIR/king_over4p5_gcta_discovery.grm.bin"
+echo "  keep : $OUT_DIR/test_cohort_kinship_ge_over4p5.txt"
+echo "  GRM  : $OUT_DIR/test_cohort_over4p5_gcta.grm.bin"
