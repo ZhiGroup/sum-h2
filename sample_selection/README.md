@@ -6,18 +6,18 @@ The historical 2,158-person cohort remains important for reproducing earlier dis
 
 ## Temporary deterministic cohort while RAP is unavailable
 
-For now, since the RAP platform is currently unavailable, we cannot enforce the use of a shared test cohort (which we will do after RAP opens). As a temporary solution, users should apply a kinship threshold of **≥ 0.022** and **include** all UK Biobank participants who occur in at least one qualifying KING pair, among participants with both brain MRI and genetic data (August 2020). This produces a finite and deterministic test cohort of approximately **8,000 participants** from **84,361 participants**.
+For now, since the RAP platform is currently unavailable, we cannot enforce the use of a shared test cohort (which we will do after RAP opens). As a temporary solution, users should apply a kinship threshold of **≥ 0.022** and **include** all UK Biobank participants who occur in at least one qualifying KING pair, among participants with both brain MRI and genetic data (August 2020). This produces a finite and deterministic test cohort of **11,963 participants** from **84,361 participants**.
 
 | Stage | *n* | Traced from |
 |---|---:|---|
 | Full eligible cohort | **84,361** | Participants with both brain MRI and August-2020 genetic data |
-| Related (Kinship ≥ 0.022) | **~8,000** | `king_cutoff_over4p5.txt` |
+| Related (Kinship ≥ 0.022) | **11,963** | `king_cutoff_over4p5.txt` |
 
 ```text
 84,361  full eligible cohort
         │
         ▼  include every participant in a KING pair with Kinship ≥ 0.022
- ~8,000  deterministic test cohort
+ 11,963  deterministic test cohort
 ```
 
 The new final keep list is derived directly from the full eligible cohort and the KING cutoff, so the same inputs always produce the same cohort. It does not randomly sample 2,158 participants or enforce the historical discovery split.
